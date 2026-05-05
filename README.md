@@ -40,6 +40,7 @@ This mirrors what you would actually work in if hired. No substitutions.
 - **Monorepo:** Nx with at least one shared library and enforced module boundaries
 - **Testing:** Jest for unit and integration tests, Playwright for at least one E2E flow
 - **Styling:** your call. Tailwind, CSS Modules, vanilla CSS, all fine.
+- **Target:** modern evergreen browsers, desktop and mobile responsive.
 
 If you choose to add a backend, use **NestJS (TypeScript)**. See "Stretch Areas."
 
@@ -47,14 +48,24 @@ If you choose to add a backend, use **NestJS (TypeScript)**. See "Stretch Areas.
 
 ## Required Deliverables
 
-A single GitHub repo (private) shared with `adevries@designpickle.com` and `rsoares@designpickle.com`, containing:
+A single GitHub repo (private) with [`@arnoe`](https://github.com/arnoe) and [`@rafaelpx`](https://github.com/rafaelpx) added as collaborators, containing:
 
 ### 1. Working application
 
 - Runs locally with documented setup steps. Ideally one command from clone to running app.
 - A deployed preview is appreciated but not required. Vercel is fine if you want to.
 
-### 2. Tests
+### 2. Git workflow and CI
+
+We want to see how you ship, not just what you ship.
+
+- **All work via pull requests into `main`.** No direct pushes. Branch protection enforced.
+- **Focused commits with clear descriptions.** Each commit should be small enough that you can describe its intent in one sentence. We will read your git log as part of the evaluation.
+- **First commit is your scaffolding.** Run the Nx generators and commit the output untouched as your first commit, before you write anything yourself. This lets us see clearly what you authored vs what the tooling generated.
+- **GitHub Actions on every PR.** Lint, type-check, unit tests, and Playwright. Failing checks block merge.
+- **Auto-approve PRs on green checks.** Configure the workflow so a PR with all checks passing is auto-approved and ready to merge.
+
+### 3. Tests
 
 Tests are a delivery gate, not a bonus.
 
@@ -62,7 +73,7 @@ Tests are a delivery gate, not a bonus.
 - **At least one Playwright E2E test** that covers the happy path: set canvas size, draw a starting state, run simulation.
 - Coverage target is your call. Justify it in the README.
 
-### 3. AI tooling co-located with the code
+### 4. AI tooling co-located with the code
 
 We use AI agents heavily in delivery. We need to see how you use them. **Commit your AI artifacts to the repo alongside the code**, not in a private setup elsewhere.
 
@@ -74,7 +85,7 @@ Depending on your workflow, that means things like:
 
 If you used AI without leaving a trace, we lose the ability to evaluate that part of your work. **No traces, no signal.**
 
-### 4. README with rationale
+### 5. README with rationale
 
 Not a setup guide. A thinking document. We want to see:
 
@@ -84,7 +95,7 @@ Not a setup guide. A thinking document. We want to see:
 - What you would do next if you had another 8 hours.
 - Anything you are not happy with and why you shipped it anyway.
 
-### 5. A 5 minute Loom (or equivalent) walkthrough
+### 6. A 5 minute Loom (or equivalent) walkthrough
 
 Walk through your solution: architecture, one or two trade-offs, a piece of AI-assisted work you are proud of, a piece you are not. Keep it tight. We respect concise.
 
@@ -152,10 +163,14 @@ Direct, so you do not waste time on the wrong things:
 
 When you are done:
 
-1. Push the repo and grant access to `adevries@designpickle.com` and `rsoares@designpickle.com`.
+1. Push the repo and add [`@arnoe`](https://github.com/arnoe) and [`@rafaelpx`](https://github.com/rafaelpx) as collaborators.
 2. Reply to the original email thread with: the repo URL, the Loom link, and any notes you want us to read first.
 3. We will review and come back within 5 business days with next steps.
 
 Questions during the build are welcome. Reply to the same thread, we will respond within one workday.
+
+Please keep this assessment confidential. Other candidates are working through the same brief.
+
+Your work remains yours. This is a hiring assessment, not contracted delivery.
 
 Good luck.
