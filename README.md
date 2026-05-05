@@ -23,9 +23,9 @@ We respect concise. We would rather see four things done well than ten things ha
 
 - **Fork this repository** to your own GitHub account. Do all work on your fork. We review your fork.
 - **Deadline: 7 calendar days** from when you received this brief.
-- **All communication routes through Gustavo.** Send questions, status, and your final submission to him. We respond within one business day.
+- **All communication routes through Interviewer.** Send questions, status, and your final submission to him. We respond within one business day.
 
-Final submission is one message to Gustavo containing:
+Final submission is one message to Interviewer containing:
 
 - The URL of your fork
 - The URL of your Loom walkthrough
@@ -167,7 +167,7 @@ Epics 5–8 in `docs/planning-artifacts/epics.md` define stretch tiers: pattern 
 
 ## Questions
 
-Reply to Gustavo. We respond within one business day.
+Reply to Interviewer. We respond within one business day.
 
 ## Confidentiality and ownership
 
