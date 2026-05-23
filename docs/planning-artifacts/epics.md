@@ -7,7 +7,7 @@ inputDocuments: [prd.md, architecture.md, product-brief.md, README.md]
 
 ## Overview
 
-This document decomposes the PRD's 16 functional and 10 non-functional requirements, plus the take-home brief's process requirements (first-commit purity, branch protection, AI artifact retention), into eight epics and twenty-four stories sized for a 6–8 hour build by a mid-to-senior frontend engineer. Epics 1–4 constitute the MVP floor — without all four green, the README's "Required Functionality" line is not cleared. Epics 5–8 are stretch tiers, ordered by signal-per-hour against the hiring rubric (pattern library first, persistence last). Each story is sized to roughly one PR. The candidate runs at most twelve to sixteen PRs in MVP and another four to ten in stretch, so the budget is honestly held. Sequencing within each epic follows the Architect's Implementation Sequence (architecture §4) so downstream stories can rely on upstream ones without rework.
+This document decomposes the PRD's 16 functional and 10 non-functional requirements, plus the take-home brief's process requirements (first-commit purity, branch protection, AI artifact retention), into eight epics and twenty-five stories sized for a 6–8 hour build by a mid-to-senior frontend engineer. Epics 1–4 constitute the MVP floor — without all four green, the README's "Required Functionality" line is not cleared. Epics 5–8 are stretch tiers, ordered by signal-per-hour against the hiring rubric (pattern library first, persistence last). Each story is sized to roughly one PR. The candidate runs at most twelve to sixteen PRs in MVP and another four to ten in stretch, so the budget is honestly held. Sequencing within each epic follows the Architect's Implementation Sequence (architecture §4) so downstream stories can rely on upstream ones without rework.
 
 ## Requirements Inventory
 
@@ -86,7 +86,7 @@ Every FR/NFR/AR maps to at least one story. MVP requirements map to epics 1–4;
 | NFR7 | 1.3, 1.4, 1.5 (CI lint/typecheck, Jest, Playwright) + 1.6 (auto-approve) |
 | NFR8 | 1.2 (tag config + deliberate-violation demo) |
 | NFR9 | AR4 implicitly held by NOT having a story that removes those dirs; documented in 4.4 (README) |
-| NFR10 | 1.1 (first-commit purity) |
+| NFR10 | 1.1 (first-commit purity), 1.1b (one focused commit per generator within a single follow-up PR) |
 | AR1 | 1.1 |
 | AR2 | 1.6 (branch protection) |
 | AR3 | 1.6 (auto-approve workflow) |
@@ -130,7 +130,47 @@ So that the panel can read the git log and see exactly what was scaffolded versu
 - [ ] No `.claude/`, `.cursor/`, `.opencode/`, `_bmad/`, `docs/`, or planning artifacts are removed by this commit (they are preserved alongside the new scaffold).
 - [ ] `pnpm install` and `pnpm nx run web:dev` succeed locally on a freshly cloned working copy.
 - [ ] `git log --oneline` shows this as the first repository commit on `main` (or, where pre-existing planning commits exist, the first commit on the implementation branch).
-- [ ] Subsequent generator-only work (NestJS app, libs, Tailwind setup) lands in a separate follow-up commit on a feature branch behind a PR — not folded into this commit.
+- [ ] Subsequent generator-only work (NestJS app, libs, Tailwind setup) lands in a separate follow-up commit on a feature branch behind a PR — not folded into this commit. Owned by story 1.1b.
+
+### Story 1.1b: Generator follow-up — libs, NestJS app, and Tailwind scaffolded behind a PR
+
+As the candidate,
+I want the project structure beyond the raw Nx preset (`libs/sim`, `libs/ui`, `libs/api-client`, `libs/types`, `apps/api`, Tailwind on `apps/web`) generated and committed on a feature branch behind a single PR,
+So that the project surface story 1.2 needs to tag and constrain actually exists, and so the panel can see the generator output is distinct from authored code in the git log.
+
+**Priority:** MVP
+**FR/NFR coverage:** NFR10 (focused PR per generator step), NFR8 (precursor — these projects must exist before boundary tags can be applied in 1.2)
+**Estimated effort:** S
+
+**Acceptance Criteria:**
+
+**Given** the raw Nx scaffolding from story 1.1 is committed on `main`,
+**When** the candidate creates a feature branch `chore/generator-followup` and runs the post-scaffold generator commands from architecture §3 in this order:
+
+1. `pnpm nx g @nx/nest:app api --frontendProject=web --tags=scope:server`
+2. `pnpm nx g @nx/js:lib sim --directory=libs/sim --bundler=tsc --tags=scope:sim`
+3. `pnpm nx g @nx/react:lib ui --directory=libs/ui --bundler=none --tags=scope:ui`
+4. `pnpm nx g @nx/js:lib api-client --directory=libs/api-client --bundler=tsc --tags=scope:api-client`
+5. `pnpm nx g @nx/js:lib types --directory=libs/types --bundler=tsc --tags=scope:types`
+6. `pnpm nx g @nx/next:setup-tailwind web`
+
+**Then** each generator runs to completion against the installed Nx version, with flags adjusted only as required by version drift (per architecture §3 note on Nx 18+ conventions) and any adjustments documented in the PR description.
+
+**Given** the generator output is on the feature branch,
+**When** the work is committed,
+**Then** each generator's output lands as its own focused commit (one commit per generator, six commits total or fewer if Nx co-generates), each commit message is summarizable in one sentence (e.g., `Generate libs/sim via @nx/js:lib`), and no authored edits to generated files are mixed in.
+
+**Given** the feature branch is opened as a PR into `main`,
+**When** the PR is reviewed,
+**Then** the diff is entirely generator output (no manual edits), the PR description names each generator command run, and the PR cleanly addresses the "subsequent generator-only work" called out in story 1.1 AC #6.
+
+**Given** the PR is merged,
+**When** `pnpm install` and `pnpm nx graph` are run locally on a fresh clone,
+**Then** the workspace resolves with `apps/web`, `apps/web-e2e`, `apps/api`, `libs/sim`, `libs/ui`, `libs/api-client`, and `libs/types` all visible in the graph and buildable via their default targets.
+
+**Given** the project structure exists,
+**When** story 1.2 begins,
+**Then** every project named in 1.2's preamble exists with its `tags` field present (per the `--tags=scope:*` arguments above) and ready to be constrained by `@nx/enforce-module-boundaries`.
 
 ### Story 1.2: Configure Nx tags and prove module boundaries fire
 
