@@ -1,6 +1,6 @@
 # Story 1.1: Initial Nx scaffolding committed untouched
 
-Status: ready-for-dev
+Status: done
 
 <!-- Generated 2026-05-22 via /bmad-bmm-create-story. Validation optional: /bmad-bmm-validate-story before /bmad-bmm-dev-story. -->
 
@@ -24,38 +24,38 @@ ACs are checklist-style on this story (acknowledged in epics.md §Story 1.1) bec
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Prepare the implementation branch** (AC: #5)
-  - [ ] Confirm you are on `main` with a clean working tree (`git status` shows only the untracked `docs/planning-artifacts/implementation-readiness-report-2026-05-22.md`; either commit it on `main` first, stash it, or leave it untracked — do not bundle it into this commit).
-  - [ ] Create the implementation branch: `git checkout -b story/1-1-initial-nx-scaffolding-committed-untouched`.
-- [ ] **Task 2: Generate the Nx workspace in a clean scratch directory** (AC: #1)
-  - [ ] `cd $(mktemp -d)` to get an isolated temp dir.
-  - [ ] Run the literal command from AC #1. Do NOT run it inside the existing repo — `create-nx-workspace` initializes its own git repo and will not merge cleanly with the existing one.
-  - [ ] When prompted about `nxCloud`, accept the `github` selection (the `--ci=github` flag handles this; `--interactive=false` suppresses any remaining prompts).
-  - [ ] Wait for the generator to complete and produce `conways-game-of-life/` inside the temp dir.
-- [ ] **Task 3: Layer the scaffold over the existing repo without edits** (AC: #2, #3)
-  - [ ] From the temp dir's `conways-game-of-life/`, copy **every file except `.git/` and `.gitignore`** into the repo root, overwriting any collisions (there should be none in MVP since the repo has no `package.json`, `nx.json`, `apps/`, `libs/` yet).
-  - [ ] Merge `.gitignore`: append any new entries from the generator's `.gitignore` to the existing one — keep the existing entries, do not overwrite. (Treat this as "raw generator output" because the generator's intent is preserved; the merge is mechanical, not editorial.) If a reviewer might quibble: alternative is to commit the generator's `.gitignore` verbatim, then re-add the OS/IDE entries from the prior `.gitignore` as a separate commit. Either is defensible; document the choice in the PR description.
-  - [ ] DO NOT copy `.git/` from the scratch directory.
-  - [ ] DO NOT open any of the generated files in an editor. Resist the urge to fix the auto-generated `README.md` typo, reformat `package.json`, or "improve" the generated `tsconfig`. This is R6 in architecture §9 — first-commit purity.
-- [ ] **Task 4: Verify the scaffold runs before committing** (AC: #4)
-  - [ ] `pnpm install` — succeeds without warnings that block install.
-  - [ ] `pnpm nx run web:dev` — Next.js dev server starts and serves the default page at `http://localhost:3000` (or `:4200` depending on Nx preset defaults).
-  - [ ] If either fails, do not commit. Diagnose, re-run the generator, or open an issue — but do not "fix it up" in this commit.
-- [ ] **Task 5: Verify NFR2 TS target compliance** (AC: #7)
-  - [ ] Open `tsconfig.base.json` (read-only — do not edit).
-  - [ ] Confirm `"target": "es2022"` or later (Nx 22+ default is `es2022`; if it isn't, note the deviation in the PR description and either accept the default or open a follow-up story rather than editing in this commit).
-  - [ ] Search for `core-js`, `@babel/polyfill`, `regenerator-runtime` in `package.json` dependencies/devDependencies; expect none. Record in PR description: "NFR2 verified: target=es2022, no polyfills introduced."
-- [ ] **Task 6: Commit raw and push the branch** (AC: #2, #5)
-  - [ ] `git add -A` (everything generator produced, including the merged `.gitignore`).
-  - [ ] `git commit -m "Initial Nx scaffolding (raw generator output)"` — one line, no extended body, no co-author trailer (the candidate authors this commit themselves; this is not AI work).
-  - [ ] Verify with `git log --oneline -1` that the commit message matches AC #2 verbatim.
-  - [ ] Verify with `git diff main..HEAD --stat` that no file from the preserved-list in AC #3 was deleted.
-  - [ ] `git push -u origin story/1-1-initial-nx-scaffolding-committed-untouched`.
-- [ ] **Task 7: Open the PR** (AC: #2)
-  - [ ] Open a PR titled `Story 1.1: Initial Nx scaffolding (raw generator output)`.
-  - [ ] Use `.github/PULL_REQUEST_TEMPLATE.md` (already in the repo).
-  - [ ] Body includes: the literal command from AC #1; the `.gitignore` merge approach chosen in Task 3; the NFR2 verification line from Task 5; an explicit "no manual edits to generated files" attestation.
-  - [ ] Note that CI is not yet wired (stories 1.3–1.5 add it), so the PR will not have green checks at this point — that is expected and the README brief acknowledges direct progression through 1.1 → 1.6 before all four checks exist.
+- [x] **Task 1: Prepare the implementation branch** (AC: #5)
+  - [x] Confirm you are on `main` with a clean working tree (`git status` shows only the untracked `docs/planning-artifacts/implementation-readiness-report-2026-05-22.md`; either commit it on `main` first, stash it, or leave it untracked — do not bundle it into this commit).
+  - [x] Create the implementation branch: `git checkout -b story/1-1-initial-nx-scaffolding-committed-untouched`.
+- [x] **Task 2: Generate the Nx workspace in a clean scratch directory** (AC: #1)
+  - [x] `cd $(mktemp -d)` to get an isolated temp dir.
+  - [x] Run the literal command from AC #1. Do NOT run it inside the existing repo — `create-nx-workspace` initializes its own git repo and will not merge cleanly with the existing one.
+  - [x] When prompted about `nxCloud`, accept the `github` selection (the `--ci=github` flag handles this; `--interactive=false` suppresses any remaining prompts).
+  - [x] Wait for the generator to complete and produce `conways-game-of-life/` inside the temp dir.
+- [x] **Task 3: Layer the scaffold over the existing repo without edits** (AC: #2, #3)
+  - [x] From the temp dir's `conways-game-of-life/`, copy **every file except `.git/` and `.gitignore`** into the repo root, overwriting any collisions (there should be none in MVP since the repo has no `package.json`, `nx.json`, `apps/`, `libs/` yet).
+  - [x] Merge `.gitignore`: append any new entries from the generator's `.gitignore` to the existing one — keep the existing entries, do not overwrite. (Treat this as "raw generator output" because the generator's intent is preserved; the merge is mechanical, not editorial.) If a reviewer might quibble: alternative is to commit the generator's `.gitignore` verbatim, then re-add the OS/IDE entries from the prior `.gitignore` as a separate commit. Either is defensible; document the choice in the PR description.
+  - [x] DO NOT copy `.git/` from the scratch directory.
+  - [x] DO NOT open any of the generated files in an editor. Resist the urge to fix the auto-generated `README.md` typo, reformat `package.json`, or "improve" the generated `tsconfig`. This is R6 in architecture §9 — first-commit purity.
+- [x] **Task 4: Verify the scaffold runs before committing** (AC: #4)
+  - [x] `pnpm install` — succeeds without warnings that block install.
+  - [x] `pnpm nx run web:dev` — Next.js dev server starts and serves the default page at `http://localhost:3000` (or `:4200` depending on Nx preset defaults).
+  - [x] If either fails, do not commit. Diagnose, re-run the generator, or open an issue — but do not "fix it up" in this commit.
+- [x] **Task 5: Verify NFR2 TS target compliance** (AC: #7)
+  - [x] Open `tsconfig.base.json` (read-only — do not edit).
+  - [x] Confirm `"target": "es2022"` or later (Nx 22+ default is `es2022`; if it isn't, note the deviation in the PR description and either accept the default or open a follow-up story rather than editing in this commit).
+  - [x] Search for `core-js`, `@babel/polyfill`, `regenerator-runtime` in `package.json` dependencies/devDependencies; expect none. Record in PR description: "NFR2 verified: target=es2022, no polyfills introduced."
+- [x] **Task 6: Commit raw and push the branch** (AC: #2, #5)
+  - [x] `git add -A` (everything generator produced, including the merged `.gitignore`).
+  - [x] `git commit -m "Initial Nx scaffolding (raw generator output)"` — one line, no extended body, no co-author trailer (the candidate authors this commit themselves; this is not AI work).
+  - [x] Verify with `git log --oneline -1` that the commit message matches AC #2 verbatim.
+  - [x] Verify with `git diff main..HEAD --stat` that no file from the preserved-list in AC #3 was deleted.
+  - [x] `git push -u origin story/1-1-initial-nx-scaffolding-committed-untouched`.
+- [x] **Task 7: Open the PR** (AC: #2)
+  - [x] Open a PR titled `Story 1.1: Initial Nx scaffolding (raw generator output)`.
+  - [x] Use `.github/PULL_REQUEST_TEMPLATE.md` (already in the repo).
+  - [x] Body includes: the literal command from AC #1; the `.gitignore` merge approach chosen in Task 3; the NFR2 verification line from Task 5; an explicit "no manual edits to generated files" attestation.
+  - [x] Note that CI is not yet wired (stories 1.3–1.5 add it), so the PR will not have green checks at this point — that is expected and the README brief acknowledges direct progression through 1.1 → 1.6 before all four checks exist.
 
 ## Dev Notes
 
@@ -188,12 +188,46 @@ claude-opus-4-7[1m] (BMad SM persona via `/bmad-bmm-create-story`, story creatio
 
 ### Debug Log References
 
-_To be filled by the dev agent during implementation._
+- Initial scaffold attempt with `--interactive=false` alone hit a new Nx 22.7.2 interactive prompt ("Will you be using GitHub as your git hosting provider?") that the flag did NOT suppress. Resolution: added `--useGitHub=true` (answers the prompt) and `--skipGitHubPush=true` (defensive against auto-push), plus `CLAUDECODE=1` env var per the CLI's `--help` hint for AI-agent non-interactive mode. Belt-and-suspenders, generator completed cleanly.
+- Dropped `--unitTestRunner=jest` at user direction — Nx 22.7.2's `--preset=next` defaults to Jest, confirmed by presence of `jest.config.ts`, `jest.preset.js`, `apps/web/jest.config.cts`, `apps/web/specs/index.spec.tsx`, and Jest 30.3.0 in `package.json` devDependencies after install.
+- Sprint-status updates intentionally deferred: the planning round's "in-progress" mark on `sprint-status.yaml` was stashed before the scaffold work and not re-committed until after the scaffold commit landed and PR was opened. This honors first-commit-purity (project-context.md rule #1) — nothing in the implementation lineage commits ahead of the scaffold.
 
 ### Completion Notes List
 
-_To be filled by the dev agent during implementation. Suggested entries: (a) which `.gitignore` merge approach was chosen in Task 3; (b) the actual `tsconfig.base.json` target value observed in Task 5; (c) any flag value the installed Nx CLI rejected (none expected per the 2026-05-22 verification, but pin the version if it drifted)._
+- `.gitignore` merge approach: existing entries kept verbatim at the top of the file, scaffold's entries appended below a clearly-marked separator comment (`# === Entries below are from create-nx-workspace --preset=next (Nx 22.7.2) ===`). Some semantic duplicates (e.g. `node_modules`, `.DS_Store`, `.claude/settings.local.json` appear on both sides) — harmless in gitignore and preserves both sides' intent.
+- `CLAUDE.md` merge approach: existing project rulebook kept verbatim, scaffold's Nx-managed block (with `<!-- nx configuration start -->` / `<!-- nx configuration end -->` markers, which Nx designs explicitly for this case) appended at the bottom. Mechanical merge, not editorial.
+- `README.md` collision resolution: scaffold's generic Nx-welcome `README.md` was dropped to preserve our existing `README.md` (the take-home brief). Defensible because the scaffold's `README.md` was non-load-bearing generic onboarding text and the brief is itself a hard requirement (AC #3 + project-context.md rule #1).
+- AC #3 verified: `git diff main..HEAD --diff-filter=D --name-only` on the story branch returned zero deletions. All preserved-list files (`.claude/commands`, `.cursor`, `.opencode`, `_bmad`, `docs`, `.github/PULL_REQUEST_TEMPLATE.md`, `README.md`, `CLAUDE.md`, `AGENTS.md`, `.gitignore`) still present.
+- AC #4 verified: `pnpm install --frozen-lockfile` ~5s (no blocking warnings); `pnpm nx run web:dev` started Next.js 16.1.7 (Turbopack) on `http://localhost:3000`, default Welcome page served (HTTP 200, title "Welcome to ", meta "Generated by create-nx-workspace").
+- AC #7 (NFR2) verified: `tsconfig.base.json` has `"target": "es2022"`, `"lib": ["es2022"]`, `"strict": true`. No `core-js` / `@babel/polyfill` / `regenerator-runtime` in any `package.json` (root, `apps/web`, `apps/web-e2e`).
+- Command-as-run deviates from AC #1: dropped `--unitTestRunner=jest` (redundant in Nx 22.7.2); added `--useGitHub=true`, `--skipGitHubPush=true`, and `CLAUDECODE=1` env var for non-interactive operation. All deviations are non-functional with respect to the scaffold output. Documented in PR body.
+- No manual edits to any generator file beyond the two documented mechanical merges (`.gitignore`, `CLAUDE.md`).
 
 ### File List
 
-_To be filled by the dev agent during implementation. Will be dominated by generator output: `package.json`, `pnpm-lock.yaml`, `nx.json`, `tsconfig.base.json`, `eslint.config.js` (or `.eslintrc.json`), `apps/web/**`, `apps/web-e2e/**`, possibly `.github/workflows/ci.yml` (starter, to be replaced in story 1.3), `.gitignore` (merged)._
+Added (38 files, all generator output):
+- `.claude/settings.json`
+- `.editorconfig`
+- `.github/workflows/ci.yml` (starter — to be replaced in stories 1.3–1.5)
+- `.prettierignore`, `.prettierrc`
+- `.vscode/extensions.json`
+- `apps/web-e2e/eslint.config.mjs`, `apps/web-e2e/package.json`, `apps/web-e2e/playwright.config.ts`, `apps/web-e2e/src/example.spec.ts`, `apps/web-e2e/tsconfig.json`
+- `apps/web/.swcrc`, `apps/web/eslint.config.mjs`, `apps/web/index.d.ts`, `apps/web/jest.config.cts`, `apps/web/next-env.d.ts`, `apps/web/next.config.js`, `apps/web/package.json`, `apps/web/public/.gitkeep`, `apps/web/public/favicon.ico`, `apps/web/specs/index.spec.tsx`, `apps/web/src/app/api/hello/route.ts`, `apps/web/src/app/global.css`, `apps/web/src/app/layout.tsx`, `apps/web/src/app/page.module.css`, `apps/web/src/app/page.tsx`, `apps/web/tsconfig.json`, `apps/web/tsconfig.spec.json`
+- `eslint.config.mjs`
+- `jest.config.ts`, `jest.preset.js`
+- `nx.json`
+- `package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`
+- `tsconfig.base.json`, `tsconfig.json`
+
+Modified (2 files, both mechanical merges with scaffold output — documented above):
+- `.gitignore`
+- `CLAUDE.md`
+
+Story-tracking updates (on `main`, after scaffold PR was merged — not part of the scaffold commit):
+- `docs/implementation-artifacts/sprint-status.yaml` (1-1 status: ready-for-dev → done; epic-1: backlog → in-progress)
+- `docs/implementation-artifacts/1-1-initial-nx-scaffolding-committed-untouched.md` (status, task checkboxes, Dev Agent Record sections)
+
+### Change Log
+
+- Story scaffolded by `/bmad-bmm-create-story` (SM persona).
+- Story executed by `/bmad-bmm-dev-story` (Dev persona). PR #1 opened against `DenizenW/conways-game-of-life` from branch `story/1-1-initial-nx-scaffolding-committed-untouched`, reviewed by the candidate and merged into `main` (commit `c170733`). Status moved ready-for-dev → done.
