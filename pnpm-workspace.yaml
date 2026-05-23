@@ -1,4 +1,6 @@
 packages:
-  - "apps/*"
-
+  - 'apps/*'
+  - 'api'
+  - 'api-e2e'
+  - 'libs/*'
 autoInstallPeers: true
