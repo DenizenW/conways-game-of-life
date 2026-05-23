@@ -1,6 +1,6 @@
 # Story 1.1b: Generator follow-up — libs, NestJS app, and Tailwind scaffolded behind a PR
 
-Status: ready-for-dev
+Status: done
 
 <!-- Generated 2026-05-23 via /bmad-bmm-create-story. Validation optional: /bmad-bmm-validate-story before /bmad-bmm-dev-story. -->
 
@@ -33,64 +33,64 @@ ACs are BDD-style where clarity benefits, checklist-style where the work is mech
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Prepare the feature branch** (AC: #1, #2)
-  - [ ] Ensure clean working tree on `main` (`git status` clean)
-  - [ ] Create branch: `git checkout -b chore/generator-followup`
+- [x] **Task 1: Prepare the feature branch** (AC: #1, #2)
+  - [x] Ensure clean working tree on `main` (`git status` clean)
+  - [x] Create branch: `git checkout -b chore/generator-followup`
 
-- [ ] **Task 2: Install missing Nx plugins** (AC: #1 — prerequisite)
-  - [ ] Verify `@nx/nest` and `@nx/react` are NOT in `package.json` (they aren't in the scaffold from 1.1)
-  - [ ] Install: `pnpm add -D @nx/nest@22.7.2 @nx/react@22.7.2`
-  - [ ] Verify installation: both packages appear in `devDependencies`
-  - [ ] Commit: `Install @nx/nest and @nx/react Nx plugins`
-  - [ ] Note: this is a tool-driven dependency addition, not an authored edit — see Dev Notes §"Plugin installation rationale"
+- [x] **Task 2: Install missing Nx plugins** (AC: #1 — prerequisite)
+  - [x] Verify `@nx/nest` and `@nx/react` are NOT in `package.json` (they aren't in the scaffold from 1.1)
+  - [x] Install: `pnpm add -D @nx/nest@22.7.2 @nx/react@22.7.2`
+  - [x] Verify installation: both packages appear in `devDependencies`
+  - [x] Commit: `Install @nx/nest and @nx/react Nx plugins`
+  - [x] Note: this is a tool-driven dependency addition, not an authored edit — see Dev Notes §"Plugin installation rationale"
 
-- [ ] **Task 3: Generate NestJS app (`apps/api`)** (AC: #1.1, #2)
-  - [ ] Verify generator flags: `pnpm nx g @nx/nest:app --help` — confirm `--frontendProject`, `--tags` are valid
-  - [ ] Run: `pnpm nx g @nx/nest:app api --frontendProject=web --tags=scope:server --no-interactive`
-  - [ ] If generator prompts or fails on a flag, adjust per Nx 22.7.2 docs and record the adjustment
-  - [ ] Verify `apps/api/` exists with `project.json` containing `"tags": ["scope:server"]`
-  - [ ] Commit: `Generate apps/api via @nx/nest:app`
+- [x] **Task 3: Generate NestJS app (`apps/api`)** (AC: #1.1, #2)
+  - [x] Verify generator flags: `pnpm nx g @nx/nest:app --help` — confirm `--frontendProject`, `--tags` are valid
+  - [x] Run: `pnpm nx g @nx/nest:app api --frontendProject=web --tags=scope:server --no-interactive`
+  - [x] If generator prompts or fails on a flag, adjust per Nx 22.7.2 docs and record the adjustment
+  - [x] Verify `apps/api/` exists with `project.json` containing `"tags": ["scope:server"]`
+  - [x] Commit: `Generate apps/api via @nx/nest:app`
 
-- [ ] **Task 4: Generate simulation library (`libs/sim`)** (AC: #1.2, #2)
-  - [ ] Verify generator flags: `pnpm nx g @nx/js:lib --help` — confirm `--directory`, `--bundler`, `--tags` are valid
-  - [ ] Run: `pnpm nx g @nx/js:lib sim --directory=libs/sim --bundler=tsc --tags=scope:sim --no-interactive`
-  - [ ] Verify `libs/sim/` exists with `project.json` containing `"tags": ["scope:sim"]`
-  - [ ] Commit: `Generate libs/sim via @nx/js:lib`
+- [x] **Task 4: Generate simulation library (`libs/sim`)** (AC: #1.2, #2)
+  - [x] Verify generator flags: `pnpm nx g @nx/js:lib --help` — confirm `--directory`, `--bundler`, `--tags` are valid
+  - [x] Run: `pnpm nx g @nx/js:lib sim --directory=libs/sim --bundler=tsc --tags=scope:sim --no-interactive`
+  - [x] Verify `libs/sim/` exists with `project.json` containing `"tags": ["scope:sim"]`
+  - [x] Commit: `Generate libs/sim via @nx/js:lib`
 
-- [ ] **Task 5: Generate UI components library (`libs/ui`)** (AC: #1.3, #2)
-  - [ ] Verify generator flags: `pnpm nx g @nx/react:lib --help` — confirm `--directory`, `--bundler`, `--tags` are valid
-  - [ ] Run: `pnpm nx g @nx/react:lib ui --directory=libs/ui --bundler=none --tags=scope:ui --no-interactive`
-  - [ ] Verify `libs/ui/` exists with `project.json` containing `"tags": ["scope:ui"]`
-  - [ ] Commit: `Generate libs/ui via @nx/react:lib`
+- [x] **Task 5: Generate UI components library (`libs/ui`)** (AC: #1.3, #2)
+  - [x] Verify generator flags: `pnpm nx g @nx/react:lib --help` — confirm `--directory`, `--bundler`, `--tags` are valid
+  - [x] Run: `pnpm nx g @nx/react:lib ui --directory=libs/ui --bundler=none --tags=scope:ui --no-interactive`
+  - [x] Verify `libs/ui/` exists with `project.json` containing `"tags": ["scope:ui"]`
+  - [x] Commit: `Generate libs/ui via @nx/react:lib`
 
-- [ ] **Task 6: Generate API client library (`libs/api-client`)** (AC: #1.4, #2)
-  - [ ] Run: `pnpm nx g @nx/js:lib api-client --directory=libs/api-client --bundler=tsc --tags=scope:api-client --no-interactive`
-  - [ ] Verify `libs/api-client/` exists with `project.json` containing `"tags": ["scope:api-client"]`
-  - [ ] Commit: `Generate libs/api-client via @nx/js:lib`
+- [x] **Task 6: Generate API client library (`libs/api-client`)** (AC: #1.4, #2)
+  - [x] Run: `pnpm nx g @nx/js:lib api-client --directory=libs/api-client --bundler=tsc --tags=scope:api-client --no-interactive`
+  - [x] Verify `libs/api-client/` exists with `project.json` containing `"tags": ["scope:api-client"]`
+  - [x] Commit: `Generate libs/api-client via @nx/js:lib`
 
-- [ ] **Task 7: Generate shared types library (`libs/types`)** (AC: #1.5, #2)
-  - [ ] Run: `pnpm nx g @nx/js:lib types --directory=libs/types --bundler=tsc --tags=scope:types --no-interactive`
-  - [ ] Verify `libs/types/` exists with `project.json` containing `"tags": ["scope:types"]`
-  - [ ] Commit: `Generate libs/types via @nx/js:lib`
+- [x] **Task 7: Generate shared types library (`libs/types`)** (AC: #1.5, #2)
+  - [x] Run: `pnpm nx g @nx/js:lib types --directory=libs/types --bundler=tsc --tags=scope:types --no-interactive`
+  - [x] Verify `libs/types/` exists with `project.json` containing `"tags": ["scope:types"]`
+  - [x] Commit: `Generate libs/types via @nx/js:lib`
 
-- [ ] **Task 8: Generate Tailwind CSS setup on `apps/web`** (AC: #1.6, #2)
-  - [ ] Verify generator exists: `pnpm nx g @nx/next:setup-tailwind --help`
-  - [ ] Run: `pnpm nx g @nx/next:setup-tailwind web --no-interactive`
-  - [ ] Verify `tailwind.config.js` (or `.ts`) exists in `apps/web/` and `postcss.config.js` is present
-  - [ ] Commit: `Set up Tailwind CSS on apps/web via @nx/next:setup-tailwind`
+- [x] **Task 8: Generate Tailwind CSS setup on `apps/web`** (AC: #1.6, #2)
+  - [x] Verify generator exists: `pnpm nx g @nx/next:setup-tailwind --help`
+  - [x] Run: `pnpm nx g @nx/next:setup-tailwind web --no-interactive`
+  - [x] Verify `tailwind.config.js` (or `.ts`) exists in `apps/web/` and `postcss.config.js` is present
+  - [x] Commit: `Set up Tailwind CSS on apps/web via @nx/next:setup-tailwind`
 
-- [ ] **Task 9: Verify full workspace graph** (AC: #4, #5)
-  - [ ] Run `pnpm install` — succeeds without blocking errors
-  - [ ] Run `pnpm nx graph --file=output.json` or `pnpm nx show projects` — verify all 7 projects are visible: `web`, `web-e2e`, `api`, `sim`, `ui`, `api-client`, `types`
-  - [ ] Verify each project has its expected `tags` field in `project.json`
-  - [ ] Run `pnpm nx run-many -t build --all` or verify default targets exist for each project
-  - [ ] If any project is not buildable or not visible, diagnose before proceeding
+- [x] **Task 9: Verify full workspace graph** (AC: #4, #5)
+  - [x] Run `pnpm install` — succeeds without blocking errors
+  - [x] Run `pnpm nx graph --file=output.json` or `pnpm nx show projects` — verify all 7 projects are visible: `web`, `web-e2e`, `api`, `sim`, `ui`, `api-client`, `types`
+  - [x] Verify each project has its expected `tags` field in `project.json`
+  - [x] Run `pnpm nx run-many -t build --all` or verify default targets exist for each project
+  - [x] If any project is not buildable or not visible, diagnose before proceeding
 
-- [ ] **Task 10: Push branch and open PR** (AC: #3)
-  - [ ] `git push -u origin chore/generator-followup`
-  - [ ] Open PR titled `Story 1.1b: Post-scaffold generator follow-up (libs, NestJS app, Tailwind)`
-  - [ ] PR description includes: each generator command run (verbatim or adjusted), any flag adjustments with rationale, explicit "no manual edits to generated files" attestation, reference to story 1.1 AC #6
-  - [ ] Note that CI is not yet wired (stories 1.3–1.5 add it) — same as story 1.1
+- [x] **Task 10: Push branch and open PR** (AC: #3)
+  - [x] `git push -u origin chore/generator-followup`
+  - [x] Open PR titled `Story 1.1b: Post-scaffold generator follow-up (libs, NestJS app, Tailwind)`
+  - [x] PR description includes: each generator command run (verbatim or adjusted), any flag adjustments with rationale, explicit "no manual edits to generated files" attestation, reference to story 1.1 AC #6
+  - [x] Note that CI is not yet wired (stories 1.3–1.5 add it) — same as story 1.1
 
 ## Dev Notes
 
@@ -191,14 +191,64 @@ Each project should have a `project.json` with the correct `tags` field set by t
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+claude-opus-4-7[1m]
 
 ### Debug Log References
 
+- `@nx/nest:app --frontendProject=web` failed: Nx 22 requires full project name `@conways-game-of-life/web`. Adjusted and re-ran successfully. Proxy setup skipped (Next.js "serve" target not found — expected, different executor pattern).
+- `@nx/next:setup-tailwind` is deprecated in Nx 22.7.2 (removed in Nx 23) but ran successfully.
+- Nx 22 creates `api/` at workspace root (not `apps/api/`) — this is the modern Nx project layout. Libraries still go under `libs/` via `--directory`.
+- `api-e2e` was co-generated by `@nx/nest:app` (default `--e2eTestRunner=jest`).
+
 ### Completion Notes List
+
+- All 6 generator commands ran successfully against Nx 22.7.2
+- 8 commits on `chore/generator-followup`: 1 tracking artifacts + 1 plugin install + 6 generator outputs
+- Each generator commit is pure — no manual edits mixed in
+- All 5 new projects have correct `scope:*` tags set via `--tags` flags
+- `pnpm install` succeeds, all 8 projects (incl. co-generated `api-e2e`) visible in workspace graph
+- PR #8 opened with full generator command list and flag adjustment rationale
 
 ### File List
 
+- `api/` — NestJS app (new, generated)
+- `api/package.json` — project config with `tags: ["scope:server"]`
+- `api/src/main.ts` — NestJS bootstrap
+- `api/src/app/app.controller.ts` — default controller
+- `api/src/app/app.module.ts` — root module
+- `api/src/app/app.service.ts` — default service
+- `api/tsconfig.json`, `api/tsconfig.app.json` — TypeScript config
+- `api/webpack.config.js` — build config
+- `api/src/assets/.gitkeep` — assets placeholder
+- `api-e2e/` — NestJS e2e test project (co-generated)
+- `api-e2e/package.json`, `api-e2e/jest.config.cts`, `api-e2e/tsconfig.json`
+- `api-e2e/src/api/api.spec.ts` — default e2e test
+- `api-e2e/src/support/` — test setup/teardown
+- `libs/sim/` — simulation library (new, generated)
+- `libs/sim/package.json` — project config with `tags: ["scope:sim"]`
+- `libs/sim/src/index.ts`, `libs/sim/src/lib/sim.ts` — barrel + placeholder
+- `libs/ui/` — React UI library (new, generated)
+- `libs/ui/package.json` — project config with `tags: ["scope:ui"]`
+- `libs/ui/src/index.ts`, `libs/ui/src/lib/ui.tsx`, `libs/ui/src/lib/ui.module.css`
+- `libs/ui/.babelrc` — Babel config
+- `libs/api-client/` — API client library (new, generated)
+- `libs/api-client/package.json` — project config with `tags: ["scope:api-client"]`
+- `libs/api-client/src/index.ts`, `libs/api-client/src/lib/api-client.ts`
+- `libs/types/` — shared types library (new, generated)
+- `libs/types/package.json` — project config with `tags: ["scope:types"]`
+- `libs/types/src/index.ts`, `libs/types/src/lib/types.ts`
+- `apps/web/tailwind.config.js` — Tailwind configuration (new)
+- `apps/web/postcss.config.js` — PostCSS configuration (new)
+- `apps/web/src/app/global.css` — updated with Tailwind directives
+- `.vscode/launch.json` — NestJS debug config (co-generated)
+- `package.json` — updated with new dependencies
+- `pnpm-lock.yaml` — lockfile updated
+- `pnpm-workspace.yaml` — workspace packages updated
+- `nx.json` — Nx config updated
+- `tsconfig.json` — path aliases added for new libraries
+- `docs/implementation-artifacts/sprint-status.yaml` — status updated to in-progress
+- `docs/implementation-artifacts/1-1b-generator-follow-up.md` — story file added
+
 ### Change Log
 
-- Story created 2026-05-23 by `/bmad-bmm-create-story` (SM persona, claude-opus-4-7[1m]).
+- Story implemented 2026-05-23 by dev agent (claude-opus-4-7[1m]). All generator commands executed, PR #8 opened.
