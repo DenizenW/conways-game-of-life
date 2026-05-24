@@ -4,7 +4,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { createGrid, randomizeGrid, step, type Grid } from '@conways-game-of-life/sim';
 import Canvas from './components/Canvas';
 import GridSizeForm from './components/GridSizeForm';
-import { useSimulationLoop } from './hooks/useSimulationLoop';
+import { useSimulationLoop } from './hooks/use-simulation-loop';
 
 const DEFAULT_WIDTH = 30;
 const DEFAULT_HEIGHT = 30;
@@ -65,6 +65,10 @@ export default function SimulationPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
+  const [windowHeight, setWindowHeight] = useState(
+    typeof window !== 'undefined' ? window.innerHeight : 600
+  );
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -78,7 +82,13 @@ export default function SimulationPage() {
     return () => observer.disconnect();
   }, []);
 
-  const maxHeight = typeof window !== 'undefined' ? window.innerHeight - 80 : 600;
+  useEffect(() => {
+    const handleResize = () => setWindowHeight(window.innerHeight);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const maxHeight = windowHeight - 80;
   const cellSize =
     containerWidth > 0
       ? Math.max(1, Math.min(

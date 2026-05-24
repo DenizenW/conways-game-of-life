@@ -1,6 +1,6 @@
 # Story 3.1: Page shell, canvas size form, and responsive layout
 
-Status: review
+Status: done
 
 ## Story
 
@@ -39,7 +39,7 @@ So that I can start interacting within seconds on either desktop or my 375px por
   - [x] Implement `renderGrid()` function per architecture §5.3 pattern
 
 - [x] **Task 3: Wire grid state with useReducer** (AC: 1, 3, 5)
-  - [x] Define a reducer managing `{ grid, genCount, running, genPerSec, dimensions }` 
+  - [x] Define a reducer managing `{ grid, genCount, running, dimensions }` (genPerSec deferred to story 3.5 per YAGNI decision — see AI Usage Note #4)
   - [x] Initialize with `createGrid(30, 30)` from `@conways-game-of-life/sim`
   - [x] Wire Canvas `useEffect([grid])` to trigger redraws
   - [x] Expose dispatch actions: `SET_DIMENSIONS`, `RESET`
@@ -126,7 +126,7 @@ apps/web/src/app/
   layout.tsx            # Already exists — update metadata
 ```
 
-Do NOT create Controls.tsx, SpeedSlider.tsx, or useSimulationLoop.ts yet — those belong to stories 3.3 and 3.5. Keep the component surface minimal for this story.
+Do NOT create Controls.tsx or SpeedSlider.tsx yet — those belong to stories 3.3 and 3.5. (`useSimulationLoop.ts` was added via Task 8 to resolve the AC #5 planning gap.)
 
 ### Imports from libs/sim
 
@@ -274,7 +274,7 @@ Candidates for inclusion in `docs/implementation-artifacts/ai-usage.md`, logged 
 - Stripped Nx boilerplate: deleted `page.module.css`, `api/hello/route.ts`, cleaned `global.css` to Tailwind directives only
 - Updated layout metadata: title "Conway's Game of Life", description "Interactive cellular automaton simulation"
 - Installed `jest-canvas-mock` and `@testing-library/jest-dom` as dev dependencies; created `jest.setup.ts` with canvas mock and ResizeObserver polyfill
-- 20 tests: 15 GridSizeForm tests (valid submit, boundary values 5/100, rejection of 4/101/0/negative/non-numeric/empty/float, both-field errors, error clearing) + 5 smoke tests (render, canvas, form inputs, gen counter, title)
+- 26 tests: 15 GridSizeForm tests (valid submit, boundary values 5/100, rejection of 4/101/0/negative/non-numeric/empty/float, both-field errors, error clearing) + 5 smoke tests (render, canvas, form inputs, gen counter, title) + 6 useSimulationLoop hook tests (start/stop, tick timing, cleanup, ref-fresh genPerSec)
 - Created `useSimulationLoop` hook per architecture §5.2: rAF + time accumulator, `genPerSec` read via `useRef` for mid-run rate changes without loop teardown
 - Added `TICK` reducer action calling `step(grid)` to advance one generation
 - Grid initializes randomized and running at 10 gen/sec; resize pauses and clears (AC #5)
@@ -282,6 +282,8 @@ Candidates for inclusion in `docs/implementation-artifacts/ai-usage.md`, logged 
 ### Change Log
 
 - 2026-05-24: Implemented story 3.1 — page shell, canvas, grid size form, responsive layout, tests
+- 2026-05-24: Code review fixes — added useSimulationLoop hook tests (6), fixed non-reactive maxHeight, corrected task 3 description (genPerSec deferred), added tsconfig.json to file list, resolved dev notes self-contradiction on useSimulationLoop.ts
+- 2026-05-24: Code review fixes (round 2) — committed uncommitted spec and page.tsx fixes, renamed hook files to kebab-case per project-context §5, removed redundant 'use client' directives from Canvas.tsx and use-simulation-loop.ts, removed unused eslint-disable in next.config.js
 
 ### File List
 
@@ -296,7 +298,10 @@ Candidates for inclusion in `docs/implementation-artifacts/ai-usage.md`, logged 
 - apps/web/src/app/components/Canvas.tsx (new)
 - apps/web/src/app/components/GridSizeForm.tsx (new)
 - apps/web/src/app/components/GridSizeForm.spec.tsx (new — 15 tests)
-- apps/web/src/app/hooks/useSimulationLoop.ts (new — rAF + accumulator loop per architecture §5.2)
+- apps/web/src/app/hooks/use-simulation-loop.ts (new — rAF + accumulator loop per architecture §5.2)
+- apps/web/src/app/hooks/use-simulation-loop.spec.ts (new — 6 hook tests: start/stop, tick timing, cleanup, ref-fresh genPerSec)
+- apps/web/next.config.js (modified — removed unused eslint-disable directive)
+- apps/web/tsconfig.json (modified — added references to libs/sim)
 - apps/web/specs/index.spec.tsx (replaced — 5 smoke tests)
 - docs/implementation-artifacts/sprint-status.yaml (modified — story status)
 - docs/implementation-artifacts/3-1-page-shell-canvas-size-form-and-responsive-layout.md (modified — task checkboxes, dev record, status)
