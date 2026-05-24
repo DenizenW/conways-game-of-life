@@ -242,6 +242,23 @@ describe('Edge cases and boundary behavior', () => {
     }
   });
 
+  it('non-square grid (4×3) — blinker oscillates correctly with both dimensions > 1', () => {
+    let grid = createGrid(4, 3);
+    grid = setCell(grid, 0, 1, 1);
+    grid = setCell(grid, 1, 1, 1);
+    grid = setCell(grid, 2, 1, 1);
+
+    const next = step(grid);
+
+    const expectedAlive = [[1, 0], [1, 1], [1, 2]];
+    for (let y = 0; y < 3; y++) {
+      for (let x = 0; x < 4; x++) {
+        const expected = expectedAlive.some(([ex, ey]) => ex === x && ey === y) ? 1 : 0;
+        expect(getCell(next, x, y)).toBe(expected);
+      }
+    }
+  });
+
   it('dead corner cell (0,0) with 3 neighbors is born at grid edge', () => {
     let grid = createGrid(5, 5);
     grid = setCell(grid, 1, 0, 1);
