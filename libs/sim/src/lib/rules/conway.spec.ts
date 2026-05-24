@@ -166,6 +166,117 @@ describe('Glider spaceship', () => {
   });
 });
 
+describe('Edge cases and boundary behavior', () => {
+  it('empty grid stays empty (no spontaneous life)', () => {
+    const grid = createGrid(5, 5);
+
+    const next = step(grid);
+
+    expect(next.width).toBe(5);
+    expect(next.height).toBe(5);
+    expect(next.cells.every((c) => c === 0)).toBe(true);
+  });
+
+  it('3×3 all-alive: corners survive, edges and center die', () => {
+    let grid = createGrid(3, 3);
+    for (let y = 0; y < 3; y++) {
+      for (let x = 0; x < 3; x++) {
+        grid = setCell(grid, x, y, 1);
+      }
+    }
+
+    const next = step(grid);
+
+    const expectedAlive = [[0, 0], [2, 0], [0, 2], [2, 2]];
+    for (let y = 0; y < 3; y++) {
+      for (let x = 0; x < 3; x++) {
+        const expected = expectedAlive.some(([ex, ey]) => ex === x && ey === y) ? 1 : 0;
+        expect(getCell(next, x, y)).toBe(expected);
+      }
+    }
+  });
+
+  it('corner cell (0,0) on 5×5 with no neighbors dies and grid stays empty', () => {
+    let grid = createGrid(5, 5);
+    grid = setCell(grid, 0, 0, 1);
+
+    const next = step(grid);
+
+    expect(next.cells.every((c) => c === 0)).toBe(true);
+  });
+
+  it('1×1 grid single live cell dies', () => {
+    let grid = createGrid(1, 1);
+    grid = setCell(grid, 0, 0, 1);
+
+    const next = step(grid);
+
+    expect(getCell(next, 0, 0)).toBe(0);
+  });
+
+  it('non-square grid (5×1) — wide: center survives, edges die', () => {
+    let grid = createGrid(5, 1);
+    grid = setCell(grid, 1, 0, 1);
+    grid = setCell(grid, 2, 0, 1);
+    grid = setCell(grid, 3, 0, 1);
+
+    const next = step(grid);
+
+    for (let x = 0; x < 5; x++) {
+      const expected = x === 2 ? 1 : 0;
+      expect(getCell(next, x, 0)).toBe(expected);
+    }
+  });
+
+  it('non-square grid (1×5) — tall: center survives, edges die', () => {
+    let grid = createGrid(1, 5);
+    grid = setCell(grid, 0, 1, 1);
+    grid = setCell(grid, 0, 2, 1);
+    grid = setCell(grid, 0, 3, 1);
+
+    const next = step(grid);
+
+    for (let y = 0; y < 5; y++) {
+      const expected = y === 2 ? 1 : 0;
+      expect(getCell(next, 0, y)).toBe(expected);
+    }
+  });
+
+  it('non-square grid (4×3) — blinker oscillates correctly with both dimensions > 1', () => {
+    let grid = createGrid(4, 3);
+    grid = setCell(grid, 0, 1, 1);
+    grid = setCell(grid, 1, 1, 1);
+    grid = setCell(grid, 2, 1, 1);
+
+    const next = step(grid);
+
+    const expectedAlive = [[1, 0], [1, 1], [1, 2]];
+    for (let y = 0; y < 3; y++) {
+      for (let x = 0; x < 4; x++) {
+        const expected = expectedAlive.some(([ex, ey]) => ex === x && ey === y) ? 1 : 0;
+        expect(getCell(next, x, y)).toBe(expected);
+      }
+    }
+  });
+
+  it('dead corner cell (0,0) with 3 neighbors is born at grid edge', () => {
+    let grid = createGrid(5, 5);
+    grid = setCell(grid, 1, 0, 1);
+    grid = setCell(grid, 0, 1, 1);
+    grid = setCell(grid, 1, 1, 1);
+
+    const next = step(grid);
+
+    const expectedAlive = [[0, 0], [1, 0], [0, 1], [1, 1]];
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        const expected = expectedAlive.some(([ex, ey]) => ex === x && ey === y) ? 1 : 0;
+        expect(getCell(next, x, y)).toBe(expected);
+      }
+    }
+  });
+});
+
 describe('Purity', () => {
   it('does not mutate the input grid', () => {
     let grid = createGrid(5, 5);
