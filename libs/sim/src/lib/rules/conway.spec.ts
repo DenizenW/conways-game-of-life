@@ -25,7 +25,7 @@ describe('Rule 1: underpopulation', () => {
 
 describe('Rule 2: survival', () => {
   it('2x2 block still-life is stable for 5 generations', () => {
-    let grid = createGrid(4, 4);
+    let grid = createGrid(3, 3);
     grid = setCell(grid, 1, 1, 1);
     grid = setCell(grid, 2, 1, 1);
     grid = setCell(grid, 1, 2, 1);
@@ -110,21 +110,25 @@ describe('Blinker oscillator', () => {
     grid = setCell(grid, 2, 2, 1);
     grid = setCell(grid, 3, 2, 1);
 
-    // Gen 1: vertical blinker at col 2
+    // Gen 1: vertical blinker at col 2 — verify entire grid
     const gen1 = step(grid);
-    expect(getCell(gen1, 1, 2)).toBe(0);
-    expect(getCell(gen1, 2, 1)).toBe(1);
-    expect(getCell(gen1, 2, 2)).toBe(1);
-    expect(getCell(gen1, 2, 3)).toBe(1);
-    expect(getCell(gen1, 3, 2)).toBe(0);
+    const gen1Alive = [[2, 1], [2, 2], [2, 3]];
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        const expected = gen1Alive.some(([ex, ey]) => ex === x && ey === y) ? 1 : 0;
+        expect(getCell(gen1, x, y)).toBe(expected);
+      }
+    }
 
-    // Gen 2: back to horizontal
+    // Gen 2: back to horizontal — verify entire grid
     const gen2 = step(gen1);
-    expect(getCell(gen2, 1, 2)).toBe(1);
-    expect(getCell(gen2, 2, 2)).toBe(1);
-    expect(getCell(gen2, 3, 2)).toBe(1);
-    expect(getCell(gen2, 2, 1)).toBe(0);
-    expect(getCell(gen2, 2, 3)).toBe(0);
+    const gen2Alive = [[1, 2], [2, 2], [3, 2]];
+    for (let y = 0; y < 5; y++) {
+      for (let x = 0; x < 5; x++) {
+        const expected = gen2Alive.some(([ex, ey]) => ex === x && ey === y) ? 1 : 0;
+        expect(getCell(gen2, x, y)).toBe(expected);
+      }
+    }
   });
 });
 
@@ -159,6 +163,25 @@ describe('Glider spaceship', () => {
         expect(getCell(result, x, y)).toBe(shouldBeAlive ? 1 : 0);
       }
     }
+  });
+});
+
+describe('Purity', () => {
+  it('does not mutate the input grid', () => {
+    let grid = createGrid(5, 5);
+    grid = setCell(grid, 1, 2, 1);
+    grid = setCell(grid, 2, 2, 1);
+    grid = setCell(grid, 3, 2, 1);
+    const originalCells = new Uint8Array(grid.cells);
+    step(grid);
+    expect(grid.cells).toEqual(originalCells);
+  });
+
+  it('returns a grid with a new cells buffer', () => {
+    let grid = createGrid(3, 3);
+    grid = setCell(grid, 1, 1, 1);
+    const result = step(grid);
+    expect(result.cells).not.toBe(grid.cells);
   });
 });
 
