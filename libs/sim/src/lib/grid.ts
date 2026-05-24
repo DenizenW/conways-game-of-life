@@ -1,9 +1,9 @@
 import type { Grid } from '@conways-game-of-life/types';
 
 export function createGrid(width: number, height: number): Grid {
-  if (width < 0 || height < 0) {
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width < 0 || height < 0) {
     throw new RangeError(
-      `Grid dimensions must be non-negative, got ${width}x${height}`
+      `Grid dimensions must be non-negative integers, got ${width}x${height}`
     );
   }
   return { width, height, cells: new Uint8Array(width * height) };
@@ -26,6 +26,11 @@ export function setCell(
   y: number,
   alive: 0 | 1
 ): Grid {
+  if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= grid.width || y >= grid.height) {
+    throw new RangeError(
+      `Cell (${x}, ${y}) is out of bounds for ${grid.width}x${grid.height} grid`
+    );
+  }
   const cells = new Uint8Array(grid.cells);
   cells[y * grid.width + x] = alive;
   return { width: grid.width, height: grid.height, cells };

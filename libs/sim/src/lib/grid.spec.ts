@@ -24,6 +24,11 @@ describe('createGrid', () => {
     expect(() => createGrid(-1, 5)).toThrow(RangeError);
     expect(() => createGrid(5, -1)).toThrow(RangeError);
   });
+
+  it('throws RangeError on non-integer dimensions', () => {
+    expect(() => createGrid(2.5, 3)).toThrow(RangeError);
+    expect(() => createGrid(3, 2.5)).toThrow(RangeError);
+  });
 });
 
 describe('setCell', () => {
@@ -47,6 +52,20 @@ describe('setCell', () => {
     const g2 = setCell(g, 0, 0, 0);
     expect(getCell(g2, 0, 0)).toBe(0);
   });
+
+  it('throws RangeError on out-of-bounds coordinates', () => {
+    const g = createGrid(3, 3);
+    expect(() => setCell(g, -1, 0, 1)).toThrow(RangeError);
+    expect(() => setCell(g, 0, -1, 1)).toThrow(RangeError);
+    expect(() => setCell(g, 3, 0, 1)).toThrow(RangeError);
+    expect(() => setCell(g, 0, 3, 1)).toThrow(RangeError);
+  });
+
+  it('throws RangeError on non-integer coordinates', () => {
+    const g = createGrid(3, 3);
+    expect(() => setCell(g, 1.5, 0, 1)).toThrow(RangeError);
+    expect(() => setCell(g, 0, 1.5, 1)).toThrow(RangeError);
+  });
 });
 
 describe('toggleCell', () => {
@@ -58,6 +77,12 @@ describe('toggleCell', () => {
     const toggledBack = toggleCell(toggled, 2, 3);
     expect(getCell(toggledBack, 2, 3)).toBe(0);
     expect(toggledBack.cells).toEqual(g.cells);
+  });
+
+  it('throws RangeError on out-of-bounds coordinates', () => {
+    const g = createGrid(3, 3);
+    expect(() => toggleCell(g, 3, 0)).toThrow(RangeError);
+    expect(() => toggleCell(g, 0, -1)).toThrow(RangeError);
   });
 });
 
