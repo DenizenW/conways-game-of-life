@@ -1,4 +1,17 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(pnpm nx lint)",
+      "Bash(pnpm nx lint *)",
+      "Bash(pnpm nx run *:lint*)",
+      "Bash(pnpm nx typecheck)",
+      "Bash(pnpm nx typecheck *)",
+      "Bash(pnpm nx run *:typecheck*)",
+      "Bash(pnpm nx test)",
+      "Bash(pnpm nx test *)",
+      "Bash(pnpm nx run *:test*)"
+    ]
+  },
   "extraKnownMarketplaces": {
     "nx-claude-plugins": {
       "source": {
