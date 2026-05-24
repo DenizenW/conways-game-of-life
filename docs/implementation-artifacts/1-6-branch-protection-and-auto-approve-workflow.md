@@ -1,6 +1,6 @@
 # Story 1.6: Branch protection and auto-approve workflow
 
-Status: in-progress
+Status: done
 
 ## Story
 
@@ -18,7 +18,7 @@ so that AR2 and AR3 are demonstrably configured per the brief.
 
 ## Tasks / Subtasks
 
-- [ ] Create `.github/workflows/auto-approve.yml` workflow
-- [ ] Configure branch protection rules on `main` via GitHub API
-- [ ] Capture branch protection configuration under `docs/implementation-artifacts/`
-- [ ] Update sprint-status.yaml
+- [x] Create `.github/workflows/auto-approve.yml` workflow
+- [x] Configure branch protection rules on `main` via GitHub API
+- [x] Capture branch protection configuration under `docs/implementation-artifacts/`
+- [x] Update sprint-status.yaml
