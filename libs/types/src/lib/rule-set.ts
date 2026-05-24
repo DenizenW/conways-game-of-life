@@ -1,4 +1,4 @@
-import type { Grid } from './grid.js';
+import type { Grid } from './grid';
 
 export interface RuleSet {
   readonly id: string;

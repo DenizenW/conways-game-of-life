@@ -1,5 +1,5 @@
 import type { Grid, RuleSet } from '@conways-game-of-life/types';
-import { getCell } from '../grid.js';
+import { getCell } from '../grid';
 
 function countNeighbors(grid: Grid, x: number, y: number): number {
   return (
