@@ -1,6 +1,6 @@
 # Story 2.4: Randomize with injectable RNG and tests
 
-Status: in-progress
+Status: done
 
 ## Story
 
@@ -21,24 +21,24 @@ So that production uses `Math.random` while tests use a deterministic seed for r
 ## Tasks / Subtasks
 
 - [x] **Task 1: Create story file and update sprint status** (housekeeping)
-- [ ] **Task 2: Implement `randomizeGrid` in `libs/sim/src/lib/grid.ts`**
-  - [ ] Pure function returning new Grid, never mutates input
-  - [ ] Short-circuit boundary densities (0 → all-dead, 1 → all-alive)
-  - [ ] RangeError on density outside [0, 1] or NaN
-  - [ ] Injectable RNG defaulting to Math.random
-- [ ] **Task 3: Add tests to `grid.spec.ts`**
-  - [ ] Determinism: same seed → identical grids
-  - [ ] Different seeds → different grids
-  - [ ] Density = 0 → all dead
-  - [ ] Density = 1 → all alive
-  - [ ] Statistical density check (~0.3 with seeded RNG)
-  - [ ] Immutability: input grid unchanged
-  - [ ] Math.random default (spy test)
-  - [ ] 0-dimension grid
-  - [ ] RangeError on invalid density (negative, >1, NaN)
-- [ ] **Task 4: Extract `mulberry32` to shared test-utils**
-- [ ] **Task 5: Export `randomizeGrid` from barrel index**
-- [ ] **Task 6: Run tests and verify green**
+- [x] **Task 2: Implement `randomizeGrid` in `libs/sim/src/lib/grid.ts`**
+  - [x] Pure function returning new Grid, never mutates input
+  - [x] Short-circuit boundary densities (0 → all-dead, 1 → all-alive)
+  - [x] RangeError on density outside [0, 1] or NaN
+  - [x] Injectable RNG defaulting to Math.random
+- [x] **Task 3: Add tests to `grid.spec.ts`**
+  - [x] Determinism: same seed → identical grids
+  - [x] Different seeds → different grids
+  - [x] Density = 0 → all dead
+  - [x] Density = 1 → all alive
+  - [x] Statistical density check (~0.3 with seeded RNG)
+  - [x] Immutability: input grid unchanged
+  - [x] Math.random default (spy test)
+  - [x] 0-dimension grid
+  - [x] RangeError on invalid density (negative, >1, NaN)
+- [x] **Task 4: Extract `mulberry32` to shared test-utils**
+- [x] **Task 5: Export `randomizeGrid` from barrel index**
+- [x] **Task 6: Run tests and verify green**
 
 ## Dev Notes
 
