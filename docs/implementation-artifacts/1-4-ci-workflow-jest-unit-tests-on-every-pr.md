@@ -1,6 +1,6 @@
 # Story 1.4: CI workflow — Jest unit tests on every PR
 
-Status: in-progress
+Status: done
 
 <!-- Generated 2026-05-24 via /bmad-bmm-quick-dev. -->
 
@@ -19,8 +19,8 @@ so that simulation rule regressions cannot merge.
 ## Tasks / Subtasks
 
 - [x] **Task 1: Create story file and update sprint status** (housekeeping)
-- [ ] **Task 2: Add dedicated `test` job to ci.yml** (AC: #1, #2)
-  - [ ] Add `test` job with same setup pattern as `lint`/`typecheck` (checkout, pnpm, node, install)
-  - [ ] Run `pnpm nx affected -t test --base=origin/main --parallel=3`
-  - [ ] Remove `test` from the existing `build-and-test` job's combined command
-- [ ] **Task 3: Adversarial review**
+- [x] **Task 2: Add dedicated `test` job to ci.yml** (AC: #1, #2)
+  - [x] Add `test` job with same setup pattern as `lint`/`typecheck` (checkout, pnpm, node, install)
+  - [x] Run `pnpm nx affected -t test --base=origin/main --parallel=3`
+  - [x] Remove `test` from the existing `build-and-test` job's combined command
+- [x] **Task 3: Adversarial review**
