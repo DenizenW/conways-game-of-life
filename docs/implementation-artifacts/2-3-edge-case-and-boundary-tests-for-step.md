@@ -1,6 +1,6 @@
 # Story 2.3: Edge-case and boundary tests for `step()`
 
-Status: in-progress
+Status: done
 
 ## Story
 
@@ -24,17 +24,17 @@ So that the test suite constrains real behavior, not just the happy path.
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Create story file and update sprint status** (housekeeping)
-  - [ ] Commit story file to feature branch
-  - [ ] Update `sprint-status.yaml`: story `2-3` to `in-progress`
-- [ ] **Task 2: Add edge-case tests to `conway.spec.ts`**
-  - [ ] AC #1: Empty grid stays empty
-  - [ ] AC #2: 3x3 all-alive hand-computed reference
-  - [ ] AC #3: Corner cell (0,0) on 5x5 dies
-  - [ ] AC #4: 1x1 single live cell dies
-  - [ ] AC #5: Non-square grid step
-  - [ ] AC #6: Birth at grid edge
-- [ ] **Task 3: Run tests and verify green**
+- [x] **Task 1: Create story file and update sprint status** (housekeeping)
+  - [x] Commit story file to feature branch
+  - [x] Update `sprint-status.yaml`: story `2-3` to `in-progress`
+- [x] **Task 2: Add edge-case tests to `conway.spec.ts`**
+  - [x] AC #1: Empty grid stays empty
+  - [x] AC #2: 3x3 all-alive hand-computed reference
+  - [x] AC #3: Corner cell (0,0) on 5x5 dies
+  - [x] AC #4: 1x1 single live cell dies
+  - [x] AC #5: Non-square grid step
+  - [x] AC #6: Birth at grid edge
+- [x] **Task 3: Run tests and verify green**
 
 ## Dev Notes
 
