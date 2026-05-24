@@ -61,7 +61,29 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm nx affected -t typecheck --base=origin/main
 
-  build-and-test:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: tree:0
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.8.0
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm nx affected -t test --base=origin/main --parallel=3
+
+  build-and-e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -82,4 +104,4 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps
-      - run: pnpm nx affected -t test build e2e --base=origin/main
+      - run: pnpm nx affected -t build e2e --base=origin/main
