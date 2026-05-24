@@ -9,6 +9,10 @@ on:
 permissions:
   pull-requests: write
 
+concurrency:
+  group: auto-approve-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
 jobs:
   auto-approve:
     if: >-
@@ -31,7 +35,7 @@ jobs:
             });
             const pr = prs.find(p => p.head.sha === headSha);
             if (!pr) {
-              core.info('No matching open PR found — skipping.');
+              core.warning('No matching open PR found — skipping.');
               return;
             }
             core.setOutput('pr_number', pr.number);

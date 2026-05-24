@@ -16,7 +16,7 @@ Configured via GitHub API on 2026-05-24.
 ## Required pull request reviews
 
 - **Required approving review count:** 1
-- **Dismiss stale reviews:** no
+- **Dismiss stale reviews:** yes
 - **Require code owner reviews:** no
 - **Require last push approval:** no
 
@@ -24,7 +24,7 @@ Configured via GitHub API on 2026-05-24.
 
 | Setting                        | Value    |
 | ------------------------------ | -------- |
-| Enforce admins                 | No       |
+| Enforce admins                 | Yes      |
 | Allow force pushes             | No       |
 | Allow deletions                | No       |
 | Required linear history        | No       |
@@ -50,12 +50,12 @@ Configured via GitHub API on 2026-05-24.
     ]
   },
   "required_pull_request_reviews": {
-    "dismiss_stale_reviews": false,
+    "dismiss_stale_reviews": true,
     "require_code_owner_reviews": false,
     "require_last_push_approval": false,
     "required_approving_review_count": 1
   },
-  "enforce_admins": {"enabled": false},
+  "enforce_admins": {"enabled": true},
   "allow_force_pushes": {"enabled": false},
   "allow_deletions": {"enabled": false},
   "required_linear_history": {"enabled": false},
