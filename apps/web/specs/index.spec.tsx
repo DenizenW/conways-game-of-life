@@ -29,4 +29,11 @@ describe('SimulationPage', () => {
     render(<Page />);
     expect(screen.getByText("Conway's Game of Life")).toBeInTheDocument();
   });
+
+  it('renders in paused state with empty canvas', () => {
+    render(<Page />);
+    const canvas = screen.getByTestId('canvas');
+    expect(canvas).toBeInTheDocument();
+    expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 0');
+  });
 });

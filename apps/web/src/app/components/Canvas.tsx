@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type { Grid } from '@conways-game-of-life/sim';
 
 interface CanvasProps {
   grid: Grid;
   cellSize: number;
+  onCellToggle?: (x: number, y: number) => void;
 }
 
 function renderGrid(
@@ -40,7 +41,7 @@ function renderGrid(
   }
 }
 
-export default function Canvas({ grid, cellSize }: CanvasProps) {
+export default function Canvas({ grid, cellSize, onCellToggle }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -50,6 +51,19 @@ export default function Canvas({ grid, cellSize }: CanvasProps) {
     if (!ctx) return;
     renderGrid(ctx, grid, cellSize);
   }, [grid, cellSize]);
+
+  const handlePointerDown = useCallback(
+    (event: React.PointerEvent<HTMLCanvasElement>) => {
+      const canvas = event.currentTarget;
+      const rect = canvas.getBoundingClientRect();
+      const x = Math.floor((event.clientX - rect.left) / cellSize);
+      const y = Math.floor((event.clientY - rect.top) / cellSize);
+      if (x >= 0 && x < grid.width && y >= 0 && y < grid.height) {
+        onCellToggle?.(x, y);
+      }
+    },
+    [cellSize, grid.width, grid.height, onCellToggle]
+  );
 
   const pixelWidth = grid.width * cellSize;
   const pixelHeight = grid.height * cellSize;
@@ -61,7 +75,8 @@ export default function Canvas({ grid, cellSize }: CanvasProps) {
       width={pixelWidth}
       height={pixelHeight}
       className="max-w-full"
-      style={{ width: pixelWidth, height: pixelHeight }}
+      style={{ width: pixelWidth, height: pixelHeight, touchAction: 'none' }}
+      onPointerDown={handlePointerDown}
     />
   );
 }
