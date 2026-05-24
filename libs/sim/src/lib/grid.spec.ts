@@ -1,4 +1,5 @@
-import { createGrid, cloneGrid, getCell, setCell, toggleCell, clearGrid } from './grid';
+import { createGrid, cloneGrid, getCell, setCell, toggleCell, clearGrid, randomizeGrid } from './grid';
+import { mulberry32 } from './test-utils';
 
 describe('createGrid', () => {
   it('produces cells.length === w * h, all zero', () => {
@@ -157,5 +158,87 @@ describe('immutability', () => {
     const original = new Uint8Array(g.cells);
     clearGrid(g);
     expect(g.cells).toEqual(original);
+  });
+});
+
+describe('randomizeGrid', () => {
+  it('returns a grid with the same dimensions', () => {
+    const g = createGrid(10, 8);
+    const r = randomizeGrid(g, 0.5, mulberry32(1));
+    expect(r.width).toBe(10);
+    expect(r.height).toBe(8);
+    expect(r.cells).toHaveLength(80);
+  });
+
+  it('produces identical output for the same seed (determinism)', () => {
+    const g = createGrid(20, 20);
+    const a = randomizeGrid(g, 0.3, mulberry32(42));
+    const b = randomizeGrid(g, 0.3, mulberry32(42));
+    expect(a.cells).toEqual(b.cells);
+  });
+
+  it('produces different output for different seeds', () => {
+    const g = createGrid(20, 20);
+    const a = randomizeGrid(g, 0.5, mulberry32(1));
+    const b = randomizeGrid(g, 0.5, mulberry32(2));
+    expect(a.cells).not.toEqual(b.cells);
+  });
+
+  it('density = 0 produces an all-dead grid', () => {
+    const g = createGrid(10, 10);
+    const r = randomizeGrid(g, 0, mulberry32(99));
+    expect(r.cells.every((c) => c === 0)).toBe(true);
+  });
+
+  it('density = 1 produces an all-alive grid', () => {
+    const g = createGrid(10, 10);
+    const r = randomizeGrid(g, 1, mulberry32(99));
+    expect(r.cells.every((c) => c === 1)).toBe(true);
+  });
+
+  it('default density (~0.3) produces a statistically reasonable alive ratio', () => {
+    const g = createGrid(50, 50);
+    const r = randomizeGrid(g, 0.3, mulberry32(7));
+    const aliveCount = r.cells.reduce((sum, c) => sum + c, 0);
+    const ratio = aliveCount / r.cells.length;
+    expect(ratio).toBeGreaterThan(0.25);
+    expect(ratio).toBeLessThan(0.35);
+  });
+
+  it('does not mutate the input grid', () => {
+    const g = createGrid(5, 5);
+    const original = new Uint8Array(g.cells);
+    randomizeGrid(g, 0.5, mulberry32(1));
+    expect(g.cells).toEqual(original);
+  });
+
+  it('uses Math.random by default when no rng provided', () => {
+    const g = createGrid(10, 10);
+    const spy = jest.spyOn(Math, 'random').mockReturnValue(0.2);
+    const r = randomizeGrid(g, 0.3);
+    expect(spy).toHaveBeenCalled();
+    expect(r.cells.every((c) => c === 1)).toBe(true);
+    spy.mockRestore();
+  });
+
+  it('works on a 0-dimension grid', () => {
+    const g = createGrid(0, 5);
+    const r = randomizeGrid(g, 0.5, mulberry32(1));
+    expect(r.cells).toHaveLength(0);
+  });
+
+  it('throws RangeError on negative density', () => {
+    const g = createGrid(5, 5);
+    expect(() => randomizeGrid(g, -0.1, mulberry32(1))).toThrow(RangeError);
+  });
+
+  it('throws RangeError on density > 1', () => {
+    const g = createGrid(5, 5);
+    expect(() => randomizeGrid(g, 1.5, mulberry32(1))).toThrow(RangeError);
+  });
+
+  it('throws RangeError on NaN density', () => {
+    const g = createGrid(5, 5);
+    expect(() => randomizeGrid(g, NaN, mulberry32(1))).toThrow(RangeError);
   });
 });
