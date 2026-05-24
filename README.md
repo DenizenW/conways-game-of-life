@@ -176,3 +176,9 @@ Please keep this assessment confidential. Other candidates are working through t
 Your work remains yours. This is a hiring assessment, not contracted delivery.
 
 Good luck.
+
+---
+
+## Module Boundaries
+
+Nx tags and `@nx/enforce-module-boundaries` enforce the dependency graph at lint time. A cross-boundary import (e.g. `libs/sim` importing from `libs/api-client`) produces a hard lint error that blocks CI. See [boundary violation demonstration](docs/implementation-artifacts/boundary-violation-demo.md) for captured proof.
