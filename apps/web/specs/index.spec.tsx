@@ -29,4 +29,11 @@ describe('SimulationPage', () => {
     render(<Page />);
     expect(screen.getByText("Conway's Game of Life")).toBeInTheDocument();
   });
+
+  it('renders in paused state with cursor-pointer on canvas container', () => {
+    render(<Page />);
+    const canvas = screen.getByTestId('canvas');
+    expect(canvas.parentElement).toHaveClass('cursor-pointer');
+    expect(canvas.parentElement).not.toHaveClass('cursor-default');
+  });
 });

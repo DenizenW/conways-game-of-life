@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import { createGrid, randomizeGrid, step, type Grid } from '@conways-game-of-life/sim';
+import { createGrid, step, toggleCell, type Grid } from '@conways-game-of-life/sim';
 import Canvas from './components/Canvas';
 import GridSizeForm from './components/GridSizeForm';
 import { useSimulationLoop } from './hooks/use-simulation-loop';
@@ -21,7 +21,8 @@ const DEFAULT_GEN_PER_SEC = 10;
 type Action =
   | { type: 'SET_DIMENSIONS'; width: number; height: number }
   | { type: 'RESET' }
-  | { type: 'TICK' };
+  | { type: 'TICK' }
+  | { type: 'TOGGLE_CELL'; x: number; y: number };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -46,6 +47,11 @@ function reducer(state: State, action: Action): State {
         grid: step(state.grid),
         genCount: state.genCount + 1,
       };
+    case 'TOGGLE_CELL':
+      return {
+        ...state,
+        grid: toggleCell(state.grid, action.x, action.y),
+      };
     default:
       return state;
   }
@@ -53,9 +59,9 @@ function reducer(state: State, action: Action): State {
 
 function initState(): State {
   return {
-    grid: randomizeGrid(createGrid(DEFAULT_WIDTH, DEFAULT_HEIGHT)),
+    grid: createGrid(DEFAULT_WIDTH, DEFAULT_HEIGHT),
     genCount: 0,
-    running: true,
+    running: false,
     dimensions: { width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT },
   };
 }
@@ -107,6 +113,14 @@ export default function SimulationPage() {
     step: handleTick,
   });
 
+  const handleCellToggle = useCallback(
+    (x: number, y: number) => {
+      if (state.running) return;
+      dispatch({ type: 'TOGGLE_CELL', x, y });
+    },
+    [state.running]
+  );
+
   const handleResize = useCallback(
     (width: number, height: number) => {
       dispatch({ type: 'SET_DIMENSIONS', width, height });
@@ -117,8 +131,8 @@ export default function SimulationPage() {
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 p-4">
       <div className="mx-auto max-w-6xl flex flex-col lg:flex-row gap-6">
-        <div ref={containerRef} className="flex-1 min-w-0">
-          <Canvas grid={state.grid} cellSize={cellSize} />
+        <div ref={containerRef} className={`flex-1 min-w-0 ${state.running ? 'cursor-default' : 'cursor-pointer'}`}>
+          <Canvas grid={state.grid} cellSize={cellSize} onCellToggle={handleCellToggle} />
         </div>
 
         <div className="lg:w-72 flex flex-col gap-4">
