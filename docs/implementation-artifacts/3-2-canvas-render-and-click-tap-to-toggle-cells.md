@@ -1,6 +1,6 @@
 # Story 3.2: Canvas render and click/tap-to-toggle cells
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -22,41 +22,41 @@ So that I can paint a starting state I'm interested in.
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Extend reducer with TOGGLE_CELL action** (AC: 1, 2)
-  - [ ] Add `TOGGLE_CELL` action type with `x: number` and `y: number` payload to the Action union in `page.tsx`
-  - [ ] Import `toggleCell` from `@conways-game-of-life/sim`
-  - [ ] Handle in reducer: return `{ ...state, grid: toggleCell(state.grid, action.x, action.y) }`
-  - [ ] genCount is NOT reset on toggle (only the grid changes)
+- [x] **Task 1: Extend reducer with TOGGLE_CELL action** (AC: 1, 2)
+  - [x] Add `TOGGLE_CELL` action type with `x: number` and `y: number` payload to the Action union in `page.tsx`
+  - [x] Import `toggleCell` from `@conways-game-of-life/sim`
+  - [x] Handle in reducer: return `{ ...state, grid: toggleCell(state.grid, action.x, action.y) }`
+  - [x] genCount is NOT reset on toggle (only the grid changes)
 
-- [ ] **Task 2: Add pointer event handling to Canvas component** (AC: 1, 2, 5)
-  - [ ] Add `onCellToggle?: (x: number, y: number) => void` prop to `CanvasProps`
-  - [ ] Attach `onPointerDown` handler to the `<canvas>` element
-  - [ ] Use `canvas.getBoundingClientRect()` to get canvas position on screen
-  - [ ] Compute grid coords: `x = Math.floor((event.clientX - rect.left) / cellSize)`, same for y
-  - [ ] Bounds check: only call `onCellToggle` if `x >= 0 && x < grid.width && y >= 0 && y < grid.height`
-  - [ ] Add `touch-action: none` CSS to canvas to prevent browser scroll/zoom on touch
+- [x] **Task 2: Add pointer event handling to Canvas component** (AC: 1, 2, 5)
+  - [x] Add `onCellToggle?: (x: number, y: number) => void` prop to `CanvasProps`
+  - [x] Attach `onPointerDown` handler to the `<canvas>` element
+  - [x] Use `canvas.getBoundingClientRect()` to get canvas position on screen
+  - [x] Compute grid coords: `x = Math.floor((event.clientX - rect.left) / cellSize)`, same for y
+  - [x] Bounds check: only call `onCellToggle` if `x >= 0 && x < grid.width && y >= 0 && y < grid.height`
+  - [x] Add `touch-action: none` CSS to canvas to prevent browser scroll/zoom on touch
 
-- [ ] **Task 3: Wire toggle from page to Canvas** (AC: 1, 2, 3)
-  - [ ] Create `handleCellToggle` callback using `useCallback` in `page.tsx`
-  - [ ] Guard: if `state.running`, return early (no-op per FR2)
-  - [ ] Otherwise dispatch `{ type: 'TOGGLE_CELL', x, y }`
-  - [ ] Pass `onCellToggle={handleCellToggle}` to `<Canvas />`
-  - [ ] Dynamic cursor: `cursor-pointer` when paused, `cursor-default` when running
+- [x] **Task 3: Wire toggle from page to Canvas** (AC: 1, 2, 3)
+  - [x] Create `handleCellToggle` callback using `useCallback` in `page.tsx`
+  - [x] Guard: if `state.running`, return early (no-op per FR2)
+  - [x] Otherwise dispatch `{ type: 'TOGGLE_CELL', x, y }`
+  - [x] Pass `onCellToggle={handleCellToggle}` to `<Canvas />`
+  - [x] Dynamic cursor: `cursor-pointer` when paused, `cursor-default` when running
 
-- [ ] **Task 4: Change initial state to paused with empty grid** (AC: 1, 2)
-  - [ ] Change `initState()` to return `running: false` with `createGrid(30, 30)` (empty, not randomized)
-  - [ ] This gives users a blank canvas to paint cells immediately on load
-  - [ ] Randomize will be available via a button in story 3.4; Play in story 3.3
+- [x] **Task 4: Change initial state to paused with empty grid** (AC: 1, 2)
+  - [x] Change `initState()` to return `running: false` with `createGrid(30, 30)` (empty, not randomized)
+  - [x] This gives users a blank canvas to paint cells immediately on load
+  - [x] Randomize will be available via a button in story 3.4; Play in story 3.3
 
-- [ ] **Task 5: Tests** (AC: 1, 2, 3, 5)
-  - [ ] **Canvas component tests** (`apps/web/src/app/components/Canvas.spec.tsx`):
-    - [ ] `pointerdown` on a cell calls `onCellToggle` with correct (x, y) grid coordinates
-    - [ ] `pointerdown` outside grid bounds does NOT call `onCellToggle`
-    - [ ] No `onCellToggle` prop: `pointerdown` does not throw
-  - [ ] **Page smoke test updates** (`apps/web/specs/index.spec.tsx`):
-    - [ ] Page renders with canvas in initial empty (paused) state
-  - [ ] **Coordinate math verification:**
-    - [ ] Mock `getBoundingClientRect` to return a known rect, fire pointerdown at computed pixel positions, assert correct grid coords
+- [x] **Task 5: Tests** (AC: 1, 2, 3, 5)
+  - [x] **Canvas component tests** (`apps/web/src/app/components/Canvas.spec.tsx`):
+    - [x] `pointerdown` on a cell calls `onCellToggle` with correct (x, y) grid coordinates
+    - [x] `pointerdown` outside grid bounds does NOT call `onCellToggle`
+    - [x] No `onCellToggle` prop: `pointerdown` does not throw
+  - [x] **Page smoke test updates** (`apps/web/specs/index.spec.tsx`):
+    - [x] Page renders with canvas in initial empty (paused) state
+  - [x] **Coordinate math verification:**
+    - [x] Mock `getBoundingClientRect` to return a known rect, fire pointerdown at computed pixel positions, assert correct grid coords
 
 ## Dev Notes
 
@@ -182,10 +182,27 @@ import { toggleCell, type Grid } from '@conways-game-of-life/sim';
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.7 (1M context)
 
 ### Debug Log References
 
+- jsdom lacks `PointerEvent` constructor — added `MockPointerEvent extends MouseEvent` polyfill in Canvas.spec.tsx so `fireEvent.pointerDown` carries `clientX`/`clientY` correctly
+
 ### Completion Notes List
 
+- Task 1: Added `TOGGLE_CELL` action to reducer, imports `toggleCell` from `@conways-game-of-life/sim`, genCount unchanged on toggle
+- Task 2: Canvas receives `onCellToggle` prop, `onPointerDown` with `getBoundingClientRect` coordinate conversion, `touch-action: none` for mobile
+- Task 3: `handleCellToggle` via `useCallback` with `state.running` guard, cursor feedback (pointer when paused, default when running)
+- Task 4: Initial state changed to `running: false` with empty `createGrid(30, 30)`, removed `randomizeGrid` import
+- Task 5: 7 new Canvas component tests (coord mapping, bounds, offset rect, no-prop safety), 1 new page smoke test for paused empty state
+
+### Change Log
+
+- 2026-05-25: Implemented all 5 tasks for story 3.2 — canvas click/tap toggle, coordinate conversion, running guard, initial paused state, 8 new tests
+
 ### File List
+
+- `apps/web/src/app/page.tsx` — modified (TOGGLE_CELL action, handleCellToggle, initial state paused+empty, cursor styling)
+- `apps/web/src/app/components/Canvas.tsx` — modified (onCellToggle prop, onPointerDown handler, touch-action CSS)
+- `apps/web/src/app/components/Canvas.spec.tsx` — new (7 Canvas component tests)
+- `apps/web/specs/index.spec.tsx` — modified (added paused empty state smoke test)
