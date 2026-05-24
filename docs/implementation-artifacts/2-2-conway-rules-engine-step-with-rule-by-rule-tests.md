@@ -308,12 +308,28 @@ Claude Opus 4.7 (1M context)
 - Implemented `step(grid: Grid): Grid` using the condensed form: alive if 3 neighbors OR (2 neighbors AND currently alive)
 - Exported `conwayRules` object conforming to `RuleSet` interface with id `'conway'`
 - All 7 describe blocks pass: underpopulation, survival, overpopulation, reproduction, blinker, glider, determinism
-- 32 total tests pass in 0.318s (well under 10s budget)
+- 34 total tests pass in ~0.3s (well under 10s budget)
 - Adversarial review passed: purity verified, no framework imports, off-grid=dead, rules correct
+- Code review fixes applied: added purity tests (immutability + fresh buffer), fixed AC#2 grid size (4×4→3×3), blinker test now exhaustively verifies entire grid
 
 ### Change Log
 
 - 2026-05-24: Implemented Conway rules engine with rule-by-rule tests (all 8 tasks complete)
+- 2026-05-24: Code review fixes — purity tests, AC#2 grid size, exhaustive blinker verification
+
+### AI Usage Notes
+
+Candidates for `docs/implementation-artifacts/ai-usage.md`:
+
+- **AI-caught AC mismatch (pushed back on dev agent):** The code review agent (Opus 4.7, adversarial review workflow) found that the block still-life test used a 4×4 grid while AC #2 explicitly specified 3×3. The dev agent's own Task 8 self-review missed this. The 4×4 grid avoided edge interactions, making it a weaker test than the AC intended. Fixed to 3×3 — the block now sits against two grid edges, exercising the off-grid=dead boundary simultaneously with Rule 2 survival.
+
+- **AI-caught missing purity tests (defense-in-depth):** The code review agent identified that `step()` had no test asserting immutability of the input grid, despite "never mutates input" being an architecture §5.1 invariant. The dev agent verified this by inspection during Task 8 but didn't encode the invariant as a test. Two tests added: input cells unchanged after `step()`, and returned grid has a fresh `cells` buffer (reference-distinct from input).
+
+- **AI-caught inconsistent test rigor:** The blinker test only spot-checked 5 of 25 cells per generation, while the glider test exhaustively verified all 100 cells. The review agent flagged this as a gap — the blinker test would pass even with spurious alive cells elsewhere. Fixed to match the glider test's exhaustive grid verification pattern.
+
+- **AI followed the story spec accurately:** The dev agent's implementation of `countNeighbors` and the condensed `step()` rule (alive if 3 neighbors OR 2 neighbors AND currently alive) directly followed the story's Dev Notes pseudocode. The canonical test fixtures (block, blinker, glider coordinates) were hand-verified in the story and implemented faithfully. Clean run with no blockers — the detailed story spec eliminated implementation ambiguity.
+
+- **Structured adversarial review workflow (BMAD):** The code review was run as a BMAD `code-review` workflow, which loads the story file, cross-references git changes against the File List, validates each AC against implementation, audits every [x] task for evidence, then performs a code quality deep dive. This structured approach caught issues (AC grid size, missing purity tests, inconsistent test rigor) that a casual "looks good" review would miss.
 
 ### File List
 
