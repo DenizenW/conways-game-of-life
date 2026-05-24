@@ -1,6 +1,6 @@
 # Story 2.2: Conway rules engine `step()` with rule-by-rule tests
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -26,49 +26,49 @@ so that FR10 has a single canonical implementation that both the web app and (st
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Create story file and update sprint status** (housekeeping)
-  - [ ] Commit story file to feature branch
-  - [ ] Update `sprint-status.yaml`: story `2-2-conway-rules-engine-step-with-rule-by-rule-tests` to `in-progress`
-- [ ] **Task 2: Add `RuleSet` interface to `libs/types`** (forward-compatibility for stretch story 8.1)
-  - [ ] Create `libs/types/src/lib/rule-set.ts` with the `RuleSet` interface from architecture §5.1
-  - [ ] Update `libs/types/src/index.ts` barrel to export from `./lib/rule-set.js`
-- [ ] **Task 3: Create `libs/sim/src/lib/rules/` directory and implement `countNeighbors`** (AC: all)
-  - [ ] Create `libs/sim/src/lib/rules/conway.ts`
-  - [ ] Implement internal `countNeighbors(grid, x, y): number` helper using `getCell` (off-grid returns 0)
-  - [ ] The neighbor check examines all 8 surrounding cells: `(x-1,y-1)`, `(x,y-1)`, `(x+1,y-1)`, `(x-1,y)`, `(x+1,y)`, `(x-1,y+1)`, `(x,y+1)`, `(x+1,y+1)`
-- [ ] **Task 4: Implement `step(grid: Grid): Grid`** (AC: #1–#6)
-  - [ ] Allocate exactly one new `Uint8Array` (same dimensions as input)
-  - [ ] For each cell `(x, y)`, count live neighbors and apply Conway's four rules:
+- [x] **Task 1: Create story file and update sprint status** (housekeeping)
+  - [x] Commit story file to feature branch
+  - [x] Update `sprint-status.yaml`: story `2-2-conway-rules-engine-step-with-rule-by-rule-tests` to `in-progress`
+- [x] **Task 2: Add `RuleSet` interface to `libs/types`** (forward-compatibility for stretch story 8.1)
+  - [x] Create `libs/types/src/lib/rule-set.ts` with the `RuleSet` interface from architecture §5.1
+  - [x] Update `libs/types/src/index.ts` barrel to export from `./lib/rule-set.js`
+- [x] **Task 3: Create `libs/sim/src/lib/rules/` directory and implement `countNeighbors`** (AC: all)
+  - [x] Create `libs/sim/src/lib/rules/conway.ts`
+  - [x] Implement internal `countNeighbors(grid, x, y): number` helper using `getCell` (off-grid returns 0)
+  - [x] The neighbor check examines all 8 surrounding cells: `(x-1,y-1)`, `(x,y-1)`, `(x+1,y-1)`, `(x-1,y)`, `(x+1,y)`, `(x-1,y+1)`, `(x,y+1)`, `(x+1,y+1)`
+- [x] **Task 4: Implement `step(grid: Grid): Grid`** (AC: #1–#6)
+  - [x] Allocate exactly one new `Uint8Array` (same dimensions as input)
+  - [x] For each cell `(x, y)`, count live neighbors and apply Conway's four rules:
     - Rule 1 (underpopulation): live cell with < 2 neighbors → dead
     - Rule 2 (survival): live cell with 2 or 3 neighbors → alive
     - Rule 3 (overpopulation): live cell with > 3 neighbors → dead
     - Rule 4 (reproduction): dead cell with exactly 3 neighbors → alive
-  - [ ] Return a new `Grid` — never mutate input
-  - [ ] Export `conwayRules` object conforming to `RuleSet` interface
-  - [ ] Export standalone `step` function as alias for `conwayRules.step`
-- [ ] **Task 5: Update barrel exports** (public API)
-  - [ ] Update `libs/sim/src/index.ts` to re-export `step`, `conwayRules`, and `RuleSet` type
-  - [ ] Ensure `.js` extension on barrel import path (ESM convention): `export { step, conwayRules } from './lib/rules/conway.js'`
-  - [ ] Re-export `RuleSet` type from `@conways-game-of-life/types`
-- [ ] **Task 6: Write rule-by-rule Jest tests** (AC: #1–#7)
-  - [ ] Create `libs/sim/src/lib/rules/conway.spec.ts`
-  - [ ] `describe('Rule 1: underpopulation')` — single live cell on 3x3 dies
-  - [ ] `describe('Rule 2: survival')` — 2x2 block still-life stable for 5 gens
-  - [ ] `describe('Rule 3: overpopulation')` — live cell with 4+ neighbors dies
-  - [ ] `describe('Rule 4: reproduction')` — dead cell with exactly 3 neighbors becomes alive
-  - [ ] `describe('Blinker oscillator')` — horizontal→vertical→horizontal (period 2)
-  - [ ] `describe('Glider spaceship')` — translates by (1,1) every 4 steps
-  - [ ] `describe('Determinism')` — 100 independent `step()` calls on same input produce byte-identical output
-- [ ] **Task 7: Verify end-to-end** (all ACs)
-  - [ ] Run `pnpm nx test sim` — all tests pass, suite < 10s
-  - [ ] Run `pnpm nx lint sim` — passes (no restricted imports in new files)
-  - [ ] Run `pnpm nx typecheck sim` — passes
-- [ ] **Task 8: Adversarial review** (team agreement from Epic 1 retro)
-  - [ ] Verify: `step()` is pure — allocates exactly one new `Uint8Array`, never mutates input
-  - [ ] Verify: off-grid neighbors are dead (no toroidal wrap)
-  - [ ] Verify: all four Conway rules are correct with hand-verified expected outputs
-  - [ ] Verify: no framework imports in new files
-  - [ ] Verify: tests encode real behavior — each `describe` block tests one rule in isolation
+  - [x] Return a new `Grid` — never mutate input
+  - [x] Export `conwayRules` object conforming to `RuleSet` interface
+  - [x] Export standalone `step` function as alias for `conwayRules.step`
+- [x] **Task 5: Update barrel exports** (public API)
+  - [x] Update `libs/sim/src/index.ts` to re-export `step`, `conwayRules`, and `RuleSet` type
+  - [x] Ensure `.js` extension on barrel import path (ESM convention): `export { step, conwayRules } from './lib/rules/conway.js'`
+  - [x] Re-export `RuleSet` type from `@conways-game-of-life/types`
+- [x] **Task 6: Write rule-by-rule Jest tests** (AC: #1–#7)
+  - [x] Create `libs/sim/src/lib/rules/conway.spec.ts`
+  - [x] `describe('Rule 1: underpopulation')` — single live cell on 3x3 dies
+  - [x] `describe('Rule 2: survival')` — 2x2 block still-life stable for 5 gens
+  - [x] `describe('Rule 3: overpopulation')` — live cell with 4+ neighbors dies
+  - [x] `describe('Rule 4: reproduction')` — dead cell with exactly 3 neighbors becomes alive
+  - [x] `describe('Blinker oscillator')` — horizontal→vertical→horizontal (period 2)
+  - [x] `describe('Glider spaceship')` — translates by (1,1) every 4 steps
+  - [x] `describe('Determinism')` — 100 independent `step()` calls on same input produce byte-identical output
+- [x] **Task 7: Verify end-to-end** (all ACs)
+  - [x] Run `pnpm nx test sim` — all tests pass, suite < 10s
+  - [x] Run `pnpm nx lint sim` — passes (no restricted imports in new files)
+  - [x] Run `pnpm nx typecheck sim` — passes
+- [x] **Task 8: Adversarial review** (team agreement from Epic 1 retro)
+  - [x] Verify: `step()` is pure — allocates exactly one new `Uint8Array`, never mutates input
+  - [x] Verify: off-grid neighbors are dead (no toroidal wrap)
+  - [x] Verify: all four Conway rules are correct with hand-verified expected outputs
+  - [x] Verify: no framework imports in new files
+  - [x] Verify: tests encode real behavior — each `describe` block tests one rule in isolation
 
 ## Dev Notes
 
@@ -295,10 +295,32 @@ After 4 steps: `(2,1), (3,2), (1,3), (2,3), (3,3)`
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.7 (1M context)
 
 ### Debug Log References
 
+(none — clean implementation, no blockers encountered)
+
 ### Completion Notes List
 
+- Implemented `RuleSet` interface in `libs/types` for forward-compatibility with story 8.1
+- Implemented `countNeighbors` helper using `getCell` (off-grid returns 0, no special boundary logic)
+- Implemented `step(grid: Grid): Grid` using the condensed form: alive if 3 neighbors OR (2 neighbors AND currently alive)
+- Exported `conwayRules` object conforming to `RuleSet` interface with id `'conway'`
+- All 7 describe blocks pass: underpopulation, survival, overpopulation, reproduction, blinker, glider, determinism
+- 32 total tests pass in 0.318s (well under 10s budget)
+- Adversarial review passed: purity verified, no framework imports, off-grid=dead, rules correct
+
+### Change Log
+
+- 2026-05-24: Implemented Conway rules engine with rule-by-rule tests (all 8 tasks complete)
+
 ### File List
+
+- libs/types/src/lib/rule-set.ts (new)
+- libs/types/src/index.ts (modified — added rule-set barrel export)
+- libs/sim/src/lib/rules/conway.ts (new)
+- libs/sim/src/lib/rules/conway.spec.ts (new)
+- libs/sim/src/index.ts (modified — added step, conwayRules, RuleSet re-exports)
+- docs/implementation-artifacts/sprint-status.yaml (modified)
+- docs/implementation-artifacts/2-2-conway-rules-engine-step-with-rule-by-rule-tests.md (new)
