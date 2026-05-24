@@ -1,6 +1,6 @@
 # Story 1.3: CI workflow — lint and type-check on every PR
 
-Status: review
+Status: done
 
 <!-- Generated 2026-05-24 via /bmad-bmm-quick-dev. -->
 
