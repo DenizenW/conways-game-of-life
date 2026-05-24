@@ -7,5 +7,5 @@ export {
   toggleCell,
   clearGrid,
   randomizeGrid,
-} from './lib/grid.js';
-export { step, conwayRules } from './lib/rules/conway.js';
+} from './lib/grid';
+export { step, conwayRules } from './lib/rules/conway';

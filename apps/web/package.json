@@ -3,11 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "nx": {
-    "tags": ["scope:app"]
+    "tags": [
+      "scope:app"
+    ]
   },
   "dependencies": {
+    "@conways-game-of-life/sim": "workspace:*",
     "next": "~16.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "jest-canvas-mock": "^2.5.2"
   }
 }
