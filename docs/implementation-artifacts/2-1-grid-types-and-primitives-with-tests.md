@@ -260,9 +260,22 @@ Claude Opus 4.7 (1M context)
 - `no-restricted-imports` ESLint rule added to `libs/sim` banning react, react-dom, next/*, @nestjs/*, and global fetch
 - Adversarial review passed: immutability, off-grid, no framework imports, real behavioral tests
 
+### AI Usage Candidates
+
+Notable AI interaction moments from this story for inclusion in `ai-usage.md`:
+
+1. **AI code review caught a silent-corruption bug (AI hit).** The adversarial review (`/bmad-bmm-code-review`) found that `setCell` had no OOB bounds checking. Calling `toggleCell(grid3x3, 4, 0)` would silently write to cell `(1,1)` instead of the non-existent `(4,0)` — a real correctness bug the dev agent missed. The review workflow earned its keep here.
+
+2. **User corrected AI's proposed fix (AI miss / pushback).** The reviewer's first instinct was to make OOB `setCell` silently return the grid unchanged (matching `getCell`'s silent-return-0 convention). The user pointed out that OOB writes are programmer errors, not domain rules, and should throw `RangeError` per architecture §5.8. The distinction: `getCell` OOB is part of Conway's rules (off-grid is dead), while `setCell` OOB is always a bug in the caller.
+
+3. **User enforced commit discipline (pushback).** The reviewer tried to bundle all fixes (code, tests, status update) into a single commit. The user caught it and directed a two-commit split: code fixes first, status bookkeeping second — consistent with the project's one-sentence-per-commit convention.
+
+4. **AI found a subtle invariant violation (AI hit).** `createGrid(2.5, 3)` would produce `cells.length = 7` but `width * height = 7.5`, breaking the documented `cells.length === width * height` invariant because `Uint8Array` silently truncates non-integer lengths. Added `Number.isInteger()` validation.
+
 ### Change Log
 
 - 2026-05-24: Implemented story 2.1 — Grid types, primitives, tests, and ESLint purity rule
+- 2026-05-24: Code review fixes — OOB/non-integer validation in setCell/createGrid, 4 new tests
 
 ### File List
 
