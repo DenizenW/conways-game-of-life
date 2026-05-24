@@ -1,6 +1,6 @@
 # Story 3.2: Canvas render and click/tap-to-toggle cells
 
-Status: review
+Status: done
 
 ## Story
 
