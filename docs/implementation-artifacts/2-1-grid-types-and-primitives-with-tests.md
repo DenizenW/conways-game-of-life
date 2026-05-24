@@ -1,6 +1,6 @@
 # Story 2.1: Grid types and primitives with tests
 
-Status: review
+Status: done
 
 ## Story
 
@@ -280,5 +280,6 @@ Claude Opus 4.7 (1M context)
 - `libs/sim/package.json` (MODIFIED) — added workspace:* dependency on @conways-game-of-life/types
 - `libs/sim/eslint.config.mjs` (NEW) — no-restricted-imports rule for sim purity
 - `tsconfig.base.json` (MODIFIED) — added noUncheckedIndexedAccess: true
+- `pnpm-lock.yaml` (MODIFIED) — updated from workspace:* dependency addition
 - `docs/implementation-artifacts/sprint-status.yaml` (MODIFIED) — story status updates
 - `docs/implementation-artifacts/2-1-grid-types-and-primitives-with-tests.md` (MODIFIED) — task checkboxes, dev agent record
