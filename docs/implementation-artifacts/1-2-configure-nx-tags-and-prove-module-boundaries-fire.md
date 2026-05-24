@@ -1,6 +1,6 @@
 # Story 1.2: Configure Nx tags and prove module boundaries fire
 
-Status: review
+Status: done
 
 <!-- Generated 2026-05-23 via /bmad-bmm-create-story. Validation optional: /bmad-bmm-validate-story before /bmad-bmm-dev-story. -->
 
@@ -14,7 +14,7 @@ so that NFR8 is a real, evaluated deliverable rather than a hand-wave.
 
 1. **Given** the Nx workspace exists with `apps/web`, `apps/web-e2e`, `libs/sim`, `libs/types`, `libs/ui`, `libs/api-client` (and stretch `apps/api`), **When** I configure each project's `tags` in `package.json` per the architecture §5.6 taxonomy (`scope:app`, `scope:e2e`, `scope:server`, `scope:sim`, `scope:ui`, `scope:api-client`, `scope:types`), **Then** the root ESLint config has `@nx/enforce-module-boundaries` with the depConstraints from architecture §5.6 and `pnpm nx lint` passes on the workspace.
 
-2. **Given** the boundary rules are configured, **When** I add a deliberately violating import — `import * as React from 'react'` in `libs/sim/src/index.ts` — on a throwaway branch, **Then** `pnpm nx lint sim` fails with an `@nx/enforce-module-boundaries` error. **And** the failure output is captured as a log paste committed under `docs/implementation-artifacts/` and referenced from the README per NFR8.
+2. **Given** the boundary rules are configured, **When** I add a deliberately violating workspace import — `import { apiClient } from '@conways-game-of-life/api-client'` in `libs/sim/src/index.ts` — on a throwaway branch, **Then** `pnpm nx lint sim` fails with an `@nx/enforce-module-boundaries` error. **And** the failure output is captured as a log paste committed under `docs/implementation-artifacts/` and referenced from the README per NFR8. *(Note: the epics AC originally specified `import * as React from 'react'`, but `@nx/enforce-module-boundaries` only governs workspace project imports — npm packages like `react` are not caught by this rule. A workspace import is the correct demonstration. The demo artifact captures both results for transparency.)*
 
 3. **Given** the demonstration is captured, **When** I revert the violation, **Then** `pnpm nx lint sim` passes again and the violating import is not present in any merged commit.
 
@@ -180,10 +180,12 @@ Claude Opus 4.7 (1M context)
 - Boundary violation demo: workspace import (`@conways-game-of-life/api-client` in `libs/sim`) correctly triggers `@nx/enforce-module-boundaries` error. npm import (`react`) does NOT trigger the rule — confirming it only governs workspace project imports. Both results captured in demo artifact.
 - Demo ran on throwaway branch `demo/boundary-violation`; violation code never appears in feature branch history.
 - README updated with minimal "Module Boundaries" section referencing the demo artifact (NFR8 anchor for story 4.4).
+- Known gap: `no-restricted-imports` for npm packages (e.g. `react`, `next`) in `libs/sim` is deferred to story 2.1 per its AC #3. The `@nx/enforce-module-boundaries` rule only governs workspace project imports; `no-restricted-imports` closes the npm-package gap.
 
 ### Change Log
 
 - 2026-05-23: Implemented all tasks — tags, depConstraints, lint verification, violation demo, README reference
+- 2026-05-24: Code review (adversarial) — 1 HIGH, 4 MEDIUM, 3 LOW findings. Fixed: AC #2 text corrected to workspace import, added completion note for deferred `no-restricted-imports` gap. Story status confirmed done.
 
 ### File List
 
