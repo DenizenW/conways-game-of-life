@@ -49,3 +49,19 @@ So that the test suite constrains real behavior, not just the happy path.
   ```
   Corners: 3 neighbors each → survive (rule 2). Edges: 5 neighbors each → die (rule 3). Center: 8 neighbors → dies (rule 3).
 - ACs #5 (non-square grid) and #6 (birth at grid edge) were added beyond the epic's 4-AC spec to strengthen boundary coverage per architecture §5.1 test requirements.
+
+## Dev Agent Record
+
+### File List
+
+| File | Change |
+| --- | --- |
+| `libs/sim/src/lib/rules/conway.spec.ts` | Added `Edge cases and boundary behavior` describe block with 8 tests covering all 6 ACs |
+| `docs/implementation-artifacts/2-3-edge-case-and-boundary-tests-for-step.md` | Story file |
+| `docs/implementation-artifacts/sprint-status.yaml` | Story `2-3` marked `in-progress` → `done` |
+
+### Change Log
+
+- `3d284b0` Add story 2.3 file and mark in-progress
+- `4bc89e0` Add edge-case and boundary tests for step()
+- `01712ff` Fix test gaps found in code review
