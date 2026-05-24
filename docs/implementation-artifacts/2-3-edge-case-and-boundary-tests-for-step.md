@@ -48,3 +48,4 @@ So that the test suite constrains real behavior, not just the happy path.
   1 1 1         1 0 1
   ```
   Corners: 3 neighbors each → survive (rule 2). Edges: 5 neighbors each → die (rule 3). Center: 8 neighbors → dies (rule 3).
+- ACs #5 (non-square grid) and #6 (birth at grid edge) were added beyond the epic's 4-AC spec to strengthen boundary coverage per architecture §5.1 test requirements.
