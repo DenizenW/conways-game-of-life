@@ -249,6 +249,7 @@ Claude Opus 4.7 (1M context)
 - `setupFilesAfterEnv` (not `setupFiles`) is required in Jest config for `@testing-library/jest-dom` because `expect` global must be available.
 - `<input type="number">` coerces non-numeric text to empty string in jsdom — validation sees "Required" rather than "Must be an integer" for alphabetic input.
 - **Planning gap (Task 8):** AC #5 requires a running simulation as a precondition, but no task in the original plan implements a run loop — that was deferred to story 3.5 (speed slider + rAF accumulator). Building the full §5.2 accumulator hook now avoids throwaway code; story 3.5 only needs the speed slider UI.
+- **CI e2e failure — Turbopack module resolution:** The e2e job failed because Turbopack couldn't resolve `@conways-game-of-life/sim`. Root cause: the workspace used `customConditions` in tsconfig.base.json (not `paths`), so `withNx` auto-discovery found no workspace deps to add to `transpilePackages`. Locally it worked by accident because `libs/sim/dist/` existed from prior builds — Turbopack fell back to the `"import": "./dist/index.js"` export. In CI (clean checkout), no dist exists and Turbopack doesn't support `customConditions`, so resolution failed. Fix: (1) dropped `.js` extensions from relative imports across all libs, (2) switched lib tsconfig.lib.json files from `moduleResolution: "nodenext"` to `"bundler"`, (3) added `baseUrl` + `paths` to tsconfig.base.json so `withNx` auto-discovers workspace deps for `transpilePackages`.
 
 ### AI Usage Notes (implementation phase)
 
@@ -261,6 +262,10 @@ Candidates for inclusion in `docs/implementation-artifacts/ai-usage.md`, logged 
 7. **Human caught: AC #5 untestable without a run loop.** The AI completed all 7 original tasks without noticing that AC #5 ("Given the simulation is running…") had no way to be satisfied — no task implemented a simulation loop. The AI had initialized a static randomized grid to "show cells," but the user pointed out the simulation was frozen. This was a planning gap: the story's task list assumed the run loop lived in story 3.5, but AC #5 made it a dependency of story 3.1.
 
 8. **Human directed: build the real architecture, not a throwaway.** When the AI proposed adding a "basic rAF loop" as the quick fix for the planning gap, the human redirected to implementing the full architecture §5.2 `useSimulationLoop` hook (rAF + time accumulator, `genPerSec` via `useRef`). This avoids writing disposable code that story 3.5 would immediately replace — the hook is production-grade from the start, and story 3.5 only needs to add the speed slider UI.
+
+9. **AI helped: diagnosed Turbopack resolution failure across local/CI environments.** The e2e CI job failed with `Module not found: Can't resolve '@conways-game-of-life/sim'` while all other CI jobs and local dev passed. The AI traced the root cause through multiple layers: (a) `withNx` auto-discovery relies on tsconfig `paths` but the workspace used `customConditions` instead, (b) local success was a false positive — Turbopack resolved via `libs/sim/dist/` from prior builds, not from source, (c) CI had no dist on a clean checkout. The AI proposed three options (drop `.js` extensions + add paths, manual `transpilePackages`, or pre-build in CI) and the human selected option A.
+
+10. **Human pushed back: fix auto-discovery, don't hardcode.** The AI's first proposed fix was adding `transpilePackages: ['@conways-game-of-life/sim', '@conways-game-of-life/types']` to next.config.js. The human rejected this as suboptimal compared to automatic discovery. The AI then proposed tsconfig `paths` + `baseUrl`, which enables `withNx`'s built-in auto-discovery mechanism — no manual package list to maintain as libs are added.
 
 ### Completion Notes List
 
@@ -284,6 +289,7 @@ Candidates for inclusion in `docs/implementation-artifacts/ai-usage.md`, logged 
 - 2026-05-24: Implemented story 3.1 — page shell, canvas, grid size form, responsive layout, tests
 - 2026-05-24: Code review fixes — added useSimulationLoop hook tests (6), fixed non-reactive maxHeight, corrected task 3 description (genPerSec deferred), added tsconfig.json to file list, resolved dev notes self-contradiction on useSimulationLoop.ts
 - 2026-05-24: Code review fixes (round 2) — committed uncommitted spec and page.tsx fixes, renamed hook files to kebab-case per project-context §5, removed redundant 'use client' directives from Canvas.tsx and use-simulation-loop.ts, removed unused eslint-disable in next.config.js
+- 2026-05-25: Fix CI e2e — switch libs to bundler module resolution, drop .js extensions, add tsconfig paths for withNx auto-discovery
 
 ### File List
 
@@ -306,3 +312,12 @@ Candidates for inclusion in `docs/implementation-artifacts/ai-usage.md`, logged 
 - docs/implementation-artifacts/sprint-status.yaml (modified — story status)
 - docs/implementation-artifacts/3-1-page-shell-canvas-size-form-and-responsive-layout.md (modified — task checkboxes, dev record, status)
 - pnpm-lock.yaml (modified — new dev dependencies)
+- tsconfig.base.json (modified — added baseUrl and paths for workspace lib auto-discovery)
+- libs/sim/src/index.ts (modified — dropped .js extensions from relative imports)
+- libs/sim/src/lib/rules/conway.ts (modified — dropped .js extension from relative import)
+- libs/sim/tsconfig.lib.json (modified — switched module/moduleResolution to esnext/bundler)
+- libs/types/src/index.ts (modified — dropped .js extensions from relative imports)
+- libs/types/src/lib/rule-set.ts (modified — dropped .js extension from relative import)
+- libs/types/tsconfig.lib.json (modified — switched module/moduleResolution to esnext/bundler)
+- libs/api-client/src/index.ts (modified — dropped .js extension from relative import)
+- libs/api-client/tsconfig.lib.json (modified — switched module/moduleResolution to esnext/bundler)
