@@ -56,8 +56,8 @@ so that NFR8 is a real, evaluated deliverable rather than a hand-wave.
 
 - [x] **Task 6: Push branch and open PR** (AC: #1, #2, #3)
   - [x] Create feature branch (e.g., `story/1-2-module-boundaries`)
-  - [ ] Push and open PR into `main`
-  - [ ] PR description should reference NFR8 and the boundary violation demo artifact
+  - [x] Push and open PR into `main`
+  - [x] PR description should reference NFR8 and the boundary violation demo artifact
 
 ## Dev Notes
 
