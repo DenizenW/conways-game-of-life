@@ -44,3 +44,26 @@ export function toggleCell(grid: Grid, x: number, y: number): Grid {
 export function clearGrid(grid: Grid): Grid {
   return { width: grid.width, height: grid.height, cells: new Uint8Array(grid.width * grid.height) };
 }
+
+export function randomizeGrid(
+  grid: Grid,
+  density = 0.3,
+  rng: () => number = Math.random
+): Grid {
+  if (density < 0 || density > 1 || Number.isNaN(density)) {
+    throw new RangeError(`Density must be between 0 and 1, got ${density}`);
+  }
+  const { width, height } = grid;
+  const len = width * height;
+  if (density === 0) return { width, height, cells: new Uint8Array(len) };
+  if (density === 1) {
+    const cells = new Uint8Array(len);
+    cells.fill(1);
+    return { width, height, cells };
+  }
+  const cells = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    cells[i] = rng() < density ? 1 : 0;
+  }
+  return { width, height, cells };
+}
