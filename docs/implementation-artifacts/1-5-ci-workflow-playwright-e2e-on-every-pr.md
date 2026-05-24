@@ -1,6 +1,6 @@
 # Story 1.5: CI workflow — Playwright E2E on every PR
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -18,24 +18,24 @@ so that E2E regressions cannot merge.
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Create story file and update sprint status** (housekeeping)
-  - [ ] Add this story file at `docs/implementation-artifacts/1-5-ci-workflow-playwright-e2e-on-every-pr.md`
-  - [ ] Update `sprint-status.yaml`: set `1-5-ci-workflow-playwright-e2e-on-every-pr` to `in-progress`
-- [ ] **Task 2: Convert `build-and-e2e` job into a dedicated `e2e` job** (AC: #1, #3)
-  - [ ] Rename the existing `build-and-e2e` job to `e2e` in `.github/workflows/ci.yml`
-  - [ ] Replace `pnpm nx affected -t build e2e --base=origin/main` with `pnpm nx affected -t e2e --base=origin/main` (consistent with `lint`, `typecheck`, and `test` jobs; the `build` target is unnecessary since Playwright's `webServer` config starts the dev server)
-  - [ ] Keep `pnpm exec playwright install --with-deps` before the e2e run
-  - [ ] Keep `timeout-minutes: 15` (Playwright browser install + dev-server startup + spec execution needs headroom beyond the 10 min used for lint/typecheck/test)
-- [ ] **Task 3: Upload Playwright artifacts on failure** (AC: #2)
-  - [ ] Add `actions/upload-artifact@v4` step after the e2e run with `if: ${{ failure() }}`
-  - [ ] Upload the Playwright HTML report directory (`apps/web-e2e/test-output/playwright/report/` — TS solution setup path set by `nxE2EPreset`)
-  - [ ] Upload test output including traces (`apps/web-e2e/test-output/playwright/output/` — TS solution setup path set by `nxE2EPreset`)
-  - [ ] Set a sensible `retention-days` (e.g., 7) to avoid bloating Actions storage
-- [ ] **Task 4: Remove firefox from Playwright config** (AC: #3)
-  - [ ] Remove the firefox project entry from `apps/web-e2e/playwright.config.ts`, keeping chromium only
-- [ ] **Task 5: Verify CI workflow syntax and push** (AC: #1, #3)
-  - [ ] Validate the updated `ci.yml` is valid YAML (no syntax errors)
-  - [ ] Confirm the job name `e2e` matches what branch protection will reference in story 1.6
+- [x] **Task 1: Create story file and update sprint status** (housekeeping)
+  - [x] Add this story file at `docs/implementation-artifacts/1-5-ci-workflow-playwright-e2e-on-every-pr.md`
+  - [x] Update `sprint-status.yaml`: set `1-5-ci-workflow-playwright-e2e-on-every-pr` to `in-progress`
+- [x] **Task 2: Convert `build-and-e2e` job into a dedicated `e2e` job** (AC: #1, #3)
+  - [x] Rename the existing `build-and-e2e` job to `e2e` in `.github/workflows/ci.yml`
+  - [x] Replace `pnpm nx affected -t build e2e --base=origin/main` with `pnpm nx affected -t e2e --base=origin/main` (consistent with `lint`, `typecheck`, and `test` jobs; the `build` target is unnecessary since Playwright's `webServer` config starts the dev server)
+  - [x] Keep `pnpm exec playwright install --with-deps` before the e2e run
+  - [x] Keep `timeout-minutes: 15` (Playwright browser install + dev-server startup + spec execution needs headroom beyond the 10 min used for lint/typecheck/test)
+- [x] **Task 3: Upload Playwright artifacts on failure** (AC: #2)
+  - [x] Add `actions/upload-artifact@v4` step after the e2e run with `if: ${{ failure() }}`
+  - [x] Upload the Playwright HTML report directory (`apps/web-e2e/test-output/playwright/report/` — TS solution setup path set by `nxE2EPreset`)
+  - [x] Upload test output including traces (`apps/web-e2e/test-output/playwright/output/` — TS solution setup path set by `nxE2EPreset`)
+  - [x] Set a sensible `retention-days` (e.g., 7) to avoid bloating Actions storage
+- [x] **Task 4: Remove firefox from Playwright config** (AC: #3)
+  - [x] Remove the firefox project entry from `apps/web-e2e/playwright.config.ts`, keeping chromium only
+- [x] **Task 5: Verify CI workflow syntax and push** (AC: #1, #3)
+  - [x] Validate the updated `ci.yml` is valid YAML (no syntax errors)
+  - [x] Confirm the job name `e2e` matches what branch protection will reference in story 1.6
 
 ## Dev Notes
 
@@ -172,4 +172,18 @@ Claude Opus 4.7 (1M context)
 
 ### Completion Notes List
 
+- Renamed `build-and-e2e` CI job to `e2e` with targeted `pnpm nx affected -t e2e` command
+- Added descriptive `name:` fields on e2e job steps for Actions UI readability
+- Added two `actions/upload-artifact@v4` steps (report + test output) gated on `failure()` with 7-day retention
+- Removed firefox project from `playwright.config.ts` for chromium-only CI runs
+- Validated YAML syntax; confirmed job names match architecture §4.10 requirements (`lint`, `typecheck`, `test`, `e2e`)
+- All existing lint, typecheck, and test checks pass with no regressions
+
+### Change Log
+
+- Converted `build-and-e2e` → `e2e` CI job with artifact upload on failure and chromium-only Playwright config (2026-05-24)
+
 ### File List
+
+- `.github/workflows/ci.yml` — renamed job, updated run command, added artifact upload steps
+- `apps/web-e2e/playwright.config.ts` — removed firefox project entry
