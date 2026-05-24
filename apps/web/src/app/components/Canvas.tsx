@@ -74,8 +74,8 @@ export default function Canvas({ grid, cellSize, onCellToggle }: CanvasProps) {
       data-testid="canvas"
       width={pixelWidth}
       height={pixelHeight}
-      className="max-w-full"
-      style={{ width: pixelWidth, height: pixelHeight, touchAction: 'none' }}
+      className="max-w-full touch-none"
+      style={{ width: pixelWidth, height: pixelHeight }}
       onPointerDown={handlePointerDown}
     />
   );
