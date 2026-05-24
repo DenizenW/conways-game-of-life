@@ -1,6 +1,6 @@
 # Story 2.2: Conway rules engine `step()` with rule-by-rule tests
 
-Status: review
+Status: done
 
 ## Story
 
