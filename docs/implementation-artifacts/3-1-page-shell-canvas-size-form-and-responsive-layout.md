@@ -290,6 +290,7 @@ Candidates for inclusion in `docs/implementation-artifacts/ai-usage.md`, logged 
 - 2026-05-24: Code review fixes — added useSimulationLoop hook tests (6), fixed non-reactive maxHeight, corrected task 3 description (genPerSec deferred), added tsconfig.json to file list, resolved dev notes self-contradiction on useSimulationLoop.ts
 - 2026-05-24: Code review fixes (round 2) — committed uncommitted spec and page.tsx fixes, renamed hook files to kebab-case per project-context §5, removed redundant 'use client' directives from Canvas.tsx and use-simulation-loop.ts, removed unused eslint-disable in next.config.js
 - 2026-05-25: Fix CI e2e — switch libs to bundler module resolution, drop .js extensions, add tsconfig paths for withNx auto-discovery
+- 2026-05-25: Fix stale scaffold e2e — update web-e2e example.spec.ts assertion from "Welcome" to "Conway's Game of Life"
 
 ### File List
 
@@ -321,3 +322,4 @@ Candidates for inclusion in `docs/implementation-artifacts/ai-usage.md`, logged 
 - libs/types/tsconfig.lib.json (modified — switched module/moduleResolution to esnext/bundler)
 - libs/api-client/src/index.ts (modified — dropped .js extension from relative import)
 - libs/api-client/tsconfig.lib.json (modified — switched module/moduleResolution to esnext/bundler)
+- apps/web-e2e/src/example.spec.ts (modified — updated h1 assertion from "Welcome" to "Conway's Game of Life")
