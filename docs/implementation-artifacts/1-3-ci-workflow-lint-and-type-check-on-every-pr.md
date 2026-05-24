@@ -1,6 +1,6 @@
 # Story 1.3: CI workflow — lint and type-check on every PR
 
-Status: in-progress
+Status: review
 
 <!-- Generated 2026-05-24 via /bmad-bmm-quick-dev. -->
 
@@ -18,10 +18,10 @@ so that style and TypeScript regressions cannot merge.
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Create story file and update sprint status** (housekeeping)
-- [ ] **Task 2: Restructure ci.yml — split lint and typecheck into separate jobs** (AC: #1, #2)
-  - [ ] Add `lint` job: checkout, pnpm setup, node setup, `pnpm install --frozen-lockfile`, `pnpm nx affected -t lint --base=origin/main`
-  - [ ] Add `typecheck` job: checkout, pnpm setup, node setup, `pnpm install --frozen-lockfile`, `pnpm nx affected -t typecheck --base=origin/main`
-  - [ ] Keep remaining targets (`test`, `build`, `e2e`) in a third job for now (stories 1.4/1.5 split those)
-  - [ ] Scope `pull_request` trigger to `branches: [main]`
-- [ ] **Task 3: Validate workflow syntax**
+- [x] **Task 1: Create story file and update sprint status** (housekeeping)
+- [x] **Task 2: Restructure ci.yml — split lint and typecheck into separate jobs** (AC: #1, #2)
+  - [x] Add `lint` job: checkout, pnpm setup, node setup, `pnpm install --frozen-lockfile`, `pnpm nx affected -t lint --base=origin/main`
+  - [x] Add `typecheck` job: checkout, pnpm setup, node setup, `pnpm install --frozen-lockfile`, `pnpm nx affected -t typecheck --base=origin/main`
+  - [x] Keep remaining targets (`test`, `build`, `e2e`) in a third job for now (stories 1.4/1.5 split those)
+  - [x] Scope `pull_request` trigger to `branches: [main]`
+- [x] **Task 3: Validate workflow syntax**
