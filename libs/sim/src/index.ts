@@ -1,4 +1,4 @@
-export type { Grid } from '@conways-game-of-life/types';
+export type { Grid, RuleSet } from '@conways-game-of-life/types';
 export {
   createGrid,
   cloneGrid,
@@ -7,4 +7,4 @@ export {
   toggleCell,
   clearGrid,
 } from './lib/grid.js';
-
+export { step, conwayRules } from './lib/rules/conway.js';
