@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Page from '../src/app/page';
 
 describe('SimulationPage', () => {
@@ -35,5 +36,39 @@ describe('SimulationPage', () => {
     const canvas = screen.getByTestId('canvas');
     expect(canvas.parentElement).toHaveClass('cursor-pointer');
     expect(canvas.parentElement).not.toHaveClass('cursor-default');
+  });
+
+  it('shows Play button initially and switches to Pause when clicked', async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    const playBtn = screen.getByRole('button', { name: /play/i });
+    expect(playBtn).toBeInTheDocument();
+
+    await user.click(playBtn);
+    expect(screen.queryByRole('button', { name: /play/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /pause/i })).toBeInTheDocument();
+  });
+
+  it('switches back to Play when Pause is clicked', async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getByRole('button', { name: /play/i }));
+    await user.click(screen.getByRole('button', { name: /pause/i }));
+    expect(screen.getByRole('button', { name: /play/i })).toBeInTheDocument();
+  });
+
+  it('advances exactly one generation when Step is clicked', async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 0');
+    await user.click(screen.getByRole('button', { name: /step/i }));
+    expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 1');
+  });
+
+  it('disables Step button while running', async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getByRole('button', { name: /play/i }));
+    expect(screen.getByRole('button', { name: /step/i })).toBeDisabled();
   });
 });

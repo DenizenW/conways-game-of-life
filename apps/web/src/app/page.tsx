@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { createGrid, step, toggleCell, type Grid } from '@conways-game-of-life/sim';
 import Canvas from './components/Canvas';
+import Controls from './components/Controls';
 import GridSizeForm from './components/GridSizeForm';
 import { useSimulationLoop } from './hooks/use-simulation-loop';
 
@@ -22,7 +23,10 @@ type Action =
   | { type: 'SET_DIMENSIONS'; width: number; height: number }
   | { type: 'RESET' }
   | { type: 'TICK' }
-  | { type: 'TOGGLE_CELL'; x: number; y: number };
+  | { type: 'TOGGLE_CELL'; x: number; y: number }
+  | { type: 'PLAY' }
+  | { type: 'PAUSE' }
+  | { type: 'STEP' };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -51,6 +55,17 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         grid: toggleCell(state.grid, action.x, action.y),
+      };
+    case 'PLAY':
+      return { ...state, running: true };
+    case 'PAUSE':
+      return { ...state, running: false };
+    case 'STEP':
+      if (state.running) return state;
+      return {
+        ...state,
+        grid: step(state.grid),
+        genCount: state.genCount + 1,
       };
     default:
       return state;
@@ -113,6 +128,18 @@ export default function SimulationPage() {
     step: handleTick,
   });
 
+  const handlePlay = useCallback(() => {
+    dispatch({ type: 'PLAY' });
+  }, []);
+
+  const handlePause = useCallback(() => {
+    dispatch({ type: 'PAUSE' });
+  }, []);
+
+  const handleStep = useCallback(() => {
+    dispatch({ type: 'STEP' });
+  }, []);
+
   const handleCellToggle = useCallback(
     (x: number, y: number) => {
       if (state.running) return;
@@ -144,6 +171,13 @@ export default function SimulationPage() {
           >
             Generation: {state.genCount}
           </div>
+
+          <Controls
+            running={state.running}
+            onPlay={handlePlay}
+            onPause={handlePause}
+            onStep={handleStep}
+          />
 
           <GridSizeForm
             currentWidth={state.dimensions.width}
