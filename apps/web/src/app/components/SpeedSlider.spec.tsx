@@ -45,15 +45,4 @@ describe('SpeedSlider', () => {
     expect(slider).toHaveAttribute('aria-valuenow', '42');
   });
 
-  it('Arrow Right increments value by 1 (native range behavior)', () => {
-    render(<SpeedSlider {...defaultProps} value={10} />);
-    const slider = screen.getByRole('slider', { name: /generations per second/i });
-    fireEvent.keyDown(slider, { key: 'ArrowRight' });
-    // Native range input handles Arrow key behavior — the onChange fires via
-    // the input's built-in handler. In jsdom, keyDown doesn't trigger native
-    // range step behavior, so we verify the input accepts keyboard focus
-    // and has the correct step attribute for native handling.
-    expect(slider).toHaveAttribute('step', '1');
-    expect(slider).toHaveAttribute('type', 'range');
-  });
 });

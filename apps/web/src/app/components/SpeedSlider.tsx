@@ -1,9 +1,11 @@
+import { memo } from 'react';
+
 interface SpeedSliderProps {
   value: number;
   onChange: (value: number) => void;
 }
 
-export default function SpeedSlider({ value, onChange }: SpeedSliderProps) {
+export default memo(function SpeedSlider({ value, onChange }: SpeedSliderProps) {
   return (
     <div className="flex flex-col gap-1">
       <label className="text-sm text-neutral-400">
@@ -24,4 +26,4 @@ export default function SpeedSlider({ value, onChange }: SpeedSliderProps) {
       />
     </div>
   );
-}
+});
