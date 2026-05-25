@@ -1,6 +1,6 @@
 # Story 3.3: Play/Pause/Step controls and generation counter
 
-Status: in-progress
+Status: review
 
 ## Story
 
@@ -22,46 +22,46 @@ So that I can run the simulation, freeze it, advance one step at a time, and see
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Add reducer actions for play/pause/step** (AC: 1, 2, 3, 4)
-  - [ ] Add `PLAY` action — sets `running: true`
-  - [ ] Add `PAUSE` action — sets `running: false`
-  - [ ] Add `STEP` action — applies `step(state.grid)` and increments `genCount` by 1 (equivalent to TICK but only when paused)
-  - [ ] Guard: STEP does nothing if `state.running === true`
+- [x] **Task 1: Add reducer actions for play/pause/step** (AC: 1, 2, 3, 4)
+  - [x] Add `PLAY` action — sets `running: true`
+  - [x] Add `PAUSE` action — sets `running: false`
+  - [x] Add `STEP` action — applies `step(state.grid)` and increments `genCount` by 1 (equivalent to TICK but only when paused)
+  - [x] Guard: STEP does nothing if `state.running === true`
 
-- [ ] **Task 2: Create Controls component** (AC: 1, 2, 3, 4)
-  - [ ] New file: `apps/web/src/app/components/Controls.tsx`
-  - [ ] Props: `running: boolean`, `onPlay: () => void`, `onPause: () => void`, `onStep: () => void`
-  - [ ] Render a combined Play/Pause toggle button: shows "Play" + play icon when paused, "Pause" + pause icon when running
-  - [ ] Render a Step button: disabled (visually and functionally) when `running === true`
-  - [ ] All buttons: real `<button>` elements with `aria-label` for accessibility
-  - [ ] Tailwind styling: `focus-visible:ring-2 focus-visible:ring-cyan-400` for visible focus rings
-  - [ ] Button base style: consistent with the app's `bg-neutral-800 hover:bg-neutral-700 text-neutral-100` pattern from GridSizeForm
+- [x] **Task 2: Create Controls component** (AC: 1, 2, 3, 4)
+  - [x] New file: `apps/web/src/app/components/Controls.tsx`
+  - [x] Props: `running: boolean`, `onPlay: () => void`, `onPause: () => void`, `onStep: () => void`
+  - [x] Render a combined Play/Pause toggle button: shows "Play" + play icon when paused, "Pause" + pause icon when running
+  - [x] Render a Step button: disabled (visually and functionally) when `running === true`
+  - [x] All buttons: real `<button>` elements with `aria-label` for accessibility
+  - [x] Tailwind styling: `focus-visible:ring-2 focus-visible:ring-cyan-400` for visible focus rings
+  - [x] Button base style: consistent with the app's `bg-neutral-800 hover:bg-neutral-700 text-neutral-100` pattern from GridSizeForm
 
-- [ ] **Task 3: Wire Controls into page** (AC: 1, 2, 3, 4)
-  - [ ] Create `handlePlay`, `handlePause`, `handleStep` callbacks with `useCallback`
-  - [ ] `handlePlay`: dispatch `{ type: 'PLAY' }`
-  - [ ] `handlePause`: dispatch `{ type: 'PAUSE' }`
-  - [ ] `handleStep`: guard `if (state.running) return;` then dispatch `{ type: 'STEP' }`
-  - [ ] Place `<Controls />` in the sidebar panel between the gen counter and GridSizeForm
+- [x] **Task 3: Wire Controls into page** (AC: 1, 2, 3, 4)
+  - [x] Create `handlePlay`, `handlePause`, `handleStep` callbacks with `useCallback`
+  - [x] `handlePlay`: dispatch `{ type: 'PLAY' }`
+  - [x] `handlePause`: dispatch `{ type: 'PAUSE' }`
+  - [x] `handleStep`: guard `if (state.running) return;` then dispatch `{ type: 'STEP' }`
+  - [x] Place `<Controls />` in the sidebar panel between the gen counter and GridSizeForm
 
-- [ ] **Task 4: Verify generation counter placement** (AC: 5)
-  - [ ] Confirm `data-testid="gen-count"` is already rendered (it is — from story 3.1)
-  - [ ] Ensure it remains visible at all viewports (already in sidebar which is always visible)
-  - [ ] Confirm counter updates on each TICK dispatch from the simulation loop (already works)
+- [x] **Task 4: Verify generation counter placement** (AC: 5)
+  - [x] Confirm `data-testid="gen-count"` is already rendered (it is — from story 3.1)
+  - [x] Ensure it remains visible at all viewports (already in sidebar which is always visible)
+  - [x] Confirm counter updates on each TICK dispatch from the simulation loop (already works)
 
-- [ ] **Task 5: Tests** (AC: 1, 2, 3, 4, 5)
-  - [ ] **Controls component tests** (`apps/web/src/app/components/Controls.spec.tsx`):
-    - [ ] When `running=false`: Play button is rendered, Step button is enabled
-    - [ ] When `running=true`: Pause button is rendered, Step button is disabled
-    - [ ] Clicking Play calls `onPlay`
-    - [ ] Clicking Pause calls `onPause`
-    - [ ] Clicking Step when not running calls `onStep`
-    - [ ] Clicking Step when running does NOT call `onStep` (disabled)
-  - [ ] **Page integration tests** (`apps/web/specs/index.spec.tsx`):
-    - [ ] Play button starts simulation (running becomes true)
-    - [ ] Pause button stops simulation
-    - [ ] Step button advances exactly one generation (genCount from 0 to 1)
-    - [ ] Step button is disabled while running
+- [x] **Task 5: Tests** (AC: 1, 2, 3, 4, 5)
+  - [x] **Controls component tests** (`apps/web/src/app/components/Controls.spec.tsx`):
+    - [x] When `running=false`: Play button is rendered, Step button is enabled
+    - [x] When `running=true`: Pause button is rendered, Step button is disabled
+    - [x] Clicking Play calls `onPlay`
+    - [x] Clicking Pause calls `onPause`
+    - [x] Clicking Step when not running calls `onStep`
+    - [x] Clicking Step when running does NOT call `onStep` (disabled)
+  - [x] **Page integration tests** (`apps/web/specs/index.spec.tsx`):
+    - [x] Play button starts simulation (running becomes true)
+    - [x] Pause button stops simulation
+    - [x] Step button advances exactly one generation (genCount from 0 to 1)
+    - [x] Step button is disabled while running
 
 ## Dev Notes
 
@@ -245,8 +245,32 @@ Recent commit patterns:
 
 ### Agent Model Used
 
+Claude Opus 4.7 (1M context)
+
 ### Debug Log References
+
+- Installed `@testing-library/user-event` (dev dependency) — was not present in workspace; needed for `userEvent.setup()` in Controls and page integration tests.
 
 ### Completion Notes List
 
+- Added PLAY, PAUSE, STEP reducer actions to page.tsx. STEP includes reducer-level guard against running state (Option A from Dev Notes).
+- Created Controls component with Play/Pause toggle button and disabled-when-running Step button. Follows existing button styling pattern from GridSizeForm.
+- Wired Controls into page sidebar between generation counter and GridSizeForm with useCallback handlers.
+- Verified generation counter (`data-testid="gen-count"`) remains visible and updates correctly — no changes needed (pre-existing from story 3.1).
+- 8 Controls unit tests + 4 page integration tests all pass. Full suite: 46 tests, 5 suites, 0 failures.
+
+### Change Log
+
+- Added Play/Pause/Step controls with reducer actions, Controls component, and page wiring (2026-05-25)
+
 ### File List
+
+New files:
+- `apps/web/src/app/components/Controls.tsx`
+- `apps/web/src/app/components/Controls.spec.tsx`
+
+Modified files:
+- `apps/web/src/app/page.tsx`
+- `apps/web/specs/index.spec.tsx`
+- `package.json` (added `@testing-library/user-event` dev dependency)
+- `pnpm-lock.yaml`
