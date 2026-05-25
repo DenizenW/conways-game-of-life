@@ -1,6 +1,6 @@
 # Story 3.3: Play/Pause/Step controls and generation counter
 
-Status: review
+Status: done
 
 ## Story
 
@@ -274,3 +274,4 @@ Modified files:
 - `apps/web/specs/index.spec.tsx`
 - `package.json` (added `@testing-library/user-event` dev dependency)
 - `pnpm-lock.yaml`
+- `docs/implementation-artifacts/sprint-status.yaml` (status → review)
