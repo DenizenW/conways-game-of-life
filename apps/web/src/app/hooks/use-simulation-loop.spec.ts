@@ -100,4 +100,15 @@ describe('useSimulationLoop', () => {
       (globalThis.requestAnimationFrame as jest.Mock).mock.calls.length
     ).toBe(rafCallCountBefore);
   });
+
+  it('DOES tear down rAF loop when running changes to false (control case)', () => {
+    const step = jest.fn();
+    const { rerender } = renderHook(
+      (props) => useSimulationLoop(props),
+      { initialProps: { running: true, genPerSec: 10, step } }
+    );
+
+    rerender({ running: false, genPerSec: 10, step });
+    expect(globalThis.cancelAnimationFrame).toHaveBeenCalled();
+  });
 });
