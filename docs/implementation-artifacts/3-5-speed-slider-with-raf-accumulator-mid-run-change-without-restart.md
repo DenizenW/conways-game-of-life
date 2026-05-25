@@ -1,6 +1,6 @@
 # Story 3.5: Speed slider with rAF + accumulator (mid-run change without restart)
 
-Status: review
+Status: done
 
 ## Story
 
@@ -267,14 +267,20 @@ None — clean implementation with no failures.
 - Task 1: Added `useState(DEFAULT_GEN_PER_SEC)` to SimulationPage, replaced hardcoded constant in `useSimulationLoop` call with dynamic state. Hook unchanged — already reads via `genPerSecRef.current`.
 - Task 2: Created SpeedSlider component with native `<input type="range">`, ARIA attributes, `Number()` conversion on change, Tailwind focus ring styling, and visible "Speed: {value} gen/s" label.
 - Task 3: Wired SpeedSlider between Controls and GridSizeForm in sidebar. Passed `setGenPerSec` directly (referentially stable).
-- Task 4: Added 6 SpeedSlider unit tests, 1 hook loop-stability control case test, 5 page integration tests. All 69 tests pass (12 new, 57 existing).
+- Task 4: Added 5 SpeedSlider unit tests, 1 hook rate-change verification test, 1 hook loop-stability control case test, 5 page integration tests. All 69 tests pass (12 new, 57 existing).
+
+### Code Review Fixes
+
+- **M1**: Removed misleading keyboard test from SpeedSlider.spec.tsx — test name claimed Arrow Right increment but only asserted attributes already covered by test #1 (jsdom cannot simulate native range stepping).
+- **M2**: Added `uses the updated genPerSec rate after mid-run change (ref-fresh read)` test to use-simulation-loop.spec.ts — proves the ref value is actually consumed at the new rate, not just that the loop isn't torn down.
+- **L3**: Wrapped SpeedSlider in `React.memo` to avoid unnecessary rerenders during simulation playback (up to 60/sec when props haven't changed).
 
 ### File List
 
 - `apps/web/src/app/page.tsx` — modified (added genPerSec state, SpeedSlider import and render)
-- `apps/web/src/app/components/SpeedSlider.tsx` — new (speed slider component)
-- `apps/web/src/app/components/SpeedSlider.spec.tsx` — new (6 unit tests)
-- `apps/web/src/app/hooks/use-simulation-loop.spec.ts` — modified (added control case test)
+- `apps/web/src/app/components/SpeedSlider.tsx` — new (speed slider component, memoized)
+- `apps/web/src/app/components/SpeedSlider.spec.tsx` — new (5 unit tests)
+- `apps/web/src/app/hooks/use-simulation-loop.spec.ts` — modified (added rate-change verification test, control case test)
 - `apps/web/specs/index.spec.tsx` — modified (added 5 integration tests)
 - `docs/implementation-artifacts/sprint-status.yaml` — modified (status update)
-- `docs/implementation-artifacts/3-5-speed-slider-with-raf-accumulator-mid-run-change-without-restart.md` — modified (task checkboxes, dev record)
+- `docs/implementation-artifacts/3-5-speed-slider-with-raf-accumulator-mid-run-change-without-restart.md` — modified (task checkboxes, dev record, review fixes)
