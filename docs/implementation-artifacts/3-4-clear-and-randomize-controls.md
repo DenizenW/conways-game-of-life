@@ -1,6 +1,6 @@
 # Story 3.4: Clear and Randomize controls
 
-Status: in-progress
+Status: done
 
 ## Story
 
@@ -262,15 +262,23 @@ None — clean implementation with no debug issues.
 - Added 4 page integration tests (gen-count reset, pause-while-running for both buttons)
 - All 56 tests pass, lint clean
 
+### Code Review Fixes
+
+- Added missing "Clear produces an all-dead grid" integration test — verifies via canvas mock that only the background fillRect is called after Clear (no live-cell fills)
+- Changed button visible text from "Random" to "Randomize" to match story/AC terminology (aria-label was already correct)
+- Added `flex-wrap` to Controls container to prevent button overflow on narrow viewports (lg sidebar w-72 = 288px)
+- All 57 tests pass, lint clean
+
 ### Change Log
 
 - Added Clear and Randomize controls with reducer actions, UI buttons, and comprehensive tests (2026-05-25)
+- Code review fixes: missing all-dead grid test, button label, flex-wrap (2026-05-25)
 
 ### File List
 
 - `apps/web/src/app/page.tsx` — modified (reducer actions, imports, callbacks, Controls props)
-- `apps/web/src/app/components/Controls.tsx` — modified (new props, Clear and Randomize buttons)
+- `apps/web/src/app/components/Controls.tsx` — modified (new props, Clear and Randomize buttons, flex-wrap, label fix)
 - `apps/web/src/app/components/Controls.spec.tsx` — modified (6 new tests for Clear/Randomize)
-- `apps/web/specs/index.spec.tsx` — modified (4 new integration tests)
+- `apps/web/specs/index.spec.tsx` — modified (5 new integration tests)
 - `docs/implementation-artifacts/sprint-status.yaml` — modified (status → in-progress → review)
 - `docs/implementation-artifacts/3-4-clear-and-randomize-controls.md` — modified (task checkboxes, dev record, review fixes)
