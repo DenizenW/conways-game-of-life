@@ -9,6 +9,8 @@ describe('Controls', () => {
     onPlay: jest.fn(),
     onPause: jest.fn(),
     onStep: jest.fn(),
+    onClear: jest.fn(),
+    onRandomize: jest.fn(),
   };
 
   beforeEach(() => {
@@ -40,6 +42,52 @@ describe('Controls', () => {
       render(<Controls {...defaultProps} />);
       await user.click(screen.getByRole('button', { name: /step/i }));
       expect(defaultProps.onStep).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Clear button', () => {
+    it('renders and is enabled when paused', () => {
+      render(<Controls {...defaultProps} />);
+      const clearBtn = screen.getByRole('button', { name: /clear/i });
+      expect(clearBtn).toBeInTheDocument();
+      expect(clearBtn).not.toBeDisabled();
+    });
+
+    it('renders and is enabled when running', () => {
+      render(<Controls {...defaultProps} running={true} />);
+      const clearBtn = screen.getByRole('button', { name: /clear/i });
+      expect(clearBtn).toBeInTheDocument();
+      expect(clearBtn).not.toBeDisabled();
+    });
+
+    it('calls onClear when clicked', async () => {
+      const user = userEvent.setup();
+      render(<Controls {...defaultProps} />);
+      await user.click(screen.getByRole('button', { name: /clear/i }));
+      expect(defaultProps.onClear).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Randomize button', () => {
+    it('renders and is enabled when paused', () => {
+      render(<Controls {...defaultProps} />);
+      const randomBtn = screen.getByRole('button', { name: /randomize/i });
+      expect(randomBtn).toBeInTheDocument();
+      expect(randomBtn).not.toBeDisabled();
+    });
+
+    it('renders and is enabled when running', () => {
+      render(<Controls {...defaultProps} running={true} />);
+      const randomBtn = screen.getByRole('button', { name: /randomize/i });
+      expect(randomBtn).toBeInTheDocument();
+      expect(randomBtn).not.toBeDisabled();
+    });
+
+    it('calls onRandomize when clicked', async () => {
+      const user = userEvent.setup();
+      render(<Controls {...defaultProps} />);
+      await user.click(screen.getByRole('button', { name: /randomize/i }));
+      expect(defaultProps.onRandomize).toHaveBeenCalledTimes(1);
     });
   });
 

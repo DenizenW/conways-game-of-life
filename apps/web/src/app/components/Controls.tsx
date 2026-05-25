@@ -3,6 +3,8 @@ interface ControlsProps {
   onPlay: () => void;
   onPause: () => void;
   onStep: () => void;
+  onClear: () => void;
+  onRandomize: () => void;
 }
 
 const btnBase =
@@ -13,9 +15,11 @@ export default function Controls({
   onPlay,
   onPause,
   onStep,
+  onClear,
+  onRandomize,
 }: ControlsProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       {running ? (
         <button
           className={btnBase}
@@ -41,6 +45,22 @@ export default function Controls({
         aria-label="Step one generation"
       >
         ⏭ Step
+      </button>
+
+      <button
+        className={btnBase}
+        onClick={onClear}
+        aria-label="Clear grid"
+      >
+        ✕ Clear
+      </button>
+
+      <button
+        className={btnBase}
+        onClick={onRandomize}
+        aria-label="Randomize grid"
+      >
+        🎲 Randomize
       </button>
     </div>
   );
