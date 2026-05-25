@@ -137,9 +137,8 @@ export default function SimulationPage() {
   }, []);
 
   const handleStep = useCallback(() => {
-    if (state.running) return;
     dispatch({ type: 'STEP' });
-  }, [state.running]);
+  }, []);
 
   const handleCellToggle = useCallback(
     (x: number, y: number) => {

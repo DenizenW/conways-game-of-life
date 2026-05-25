@@ -1,5 +1,3 @@
-'use client';
-
 interface ControlsProps {
   running: boolean;
   onPlay: () => void;

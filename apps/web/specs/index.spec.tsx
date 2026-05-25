@@ -45,6 +45,7 @@ describe('SimulationPage', () => {
     expect(playBtn).toBeInTheDocument();
 
     await user.click(playBtn);
+    expect(screen.queryByRole('button', { name: /play/i })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: /pause/i })).toBeInTheDocument();
   });
 
