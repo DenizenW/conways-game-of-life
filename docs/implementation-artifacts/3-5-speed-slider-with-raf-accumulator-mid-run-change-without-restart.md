@@ -1,6 +1,6 @@
 # Story 3.5: Speed slider with rAF + accumulator (mid-run change without restart)
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -20,43 +20,43 @@ So that I never have to pause and resume just to change speed.
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Add `genPerSec` state to page** (AC: 1, 2)
-  - [ ] Add `const [genPerSec, setGenPerSec] = useState(DEFAULT_GEN_PER_SEC)` to `SimulationPage`
-  - [ ] Replace hardcoded `genPerSec: DEFAULT_GEN_PER_SEC` in `useSimulationLoop` call with dynamic `genPerSec` state
-  - [ ] Verify the existing `useSimulationLoop` hook already reads `genPerSec` via `genPerSecRef` (it does — no hook changes needed)
+- [x] **Task 1: Add `genPerSec` state to page** (AC: 1, 2)
+  - [x] Add `const [genPerSec, setGenPerSec] = useState(DEFAULT_GEN_PER_SEC)` to `SimulationPage`
+  - [x] Replace hardcoded `genPerSec: DEFAULT_GEN_PER_SEC` in `useSimulationLoop` call with dynamic `genPerSec` state
+  - [x] Verify the existing `useSimulationLoop` hook already reads `genPerSec` via `genPerSecRef` (it does — no hook changes needed)
 
-- [ ] **Task 2: Create SpeedSlider component** (AC: 2, 4)
-  - [ ] Create `apps/web/src/app/components/SpeedSlider.tsx`
-  - [ ] Props: `{ value: number; onChange: (value: number) => void }`
-  - [ ] Render `<input type="range">` with `min={1}`, `max={60}`, `step={1}`
-  - [ ] Add `aria-label="Generations per second"`, `aria-valuemin={1}`, `aria-valuemax={60}`, `aria-valuenow={value}`
-  - [ ] Display current value as visible label (e.g., "Speed: 10 gen/s")
-  - [ ] Style with Tailwind classes consistent with existing controls (focus-visible ring, neutral palette)
+- [x] **Task 2: Create SpeedSlider component** (AC: 2, 4)
+  - [x] Create `apps/web/src/app/components/SpeedSlider.tsx`
+  - [x] Props: `{ value: number; onChange: (value: number) => void }`
+  - [x] Render `<input type="range">` with `min={1}`, `max={60}`, `step={1}`
+  - [x] Add `aria-label="Generations per second"`, `aria-valuemin={1}`, `aria-valuemax={60}`, `aria-valuenow={value}`
+  - [x] Display current value as visible label (e.g., "Speed: 10 gen/s")
+  - [x] Style with Tailwind classes consistent with existing controls (focus-visible ring, neutral palette)
 
-- [ ] **Task 3: Wire SpeedSlider into page** (AC: 2)
-  - [ ] Import and render `<SpeedSlider value={genPerSec} onChange={setGenPerSec} />` in the sidebar controls area
-  - [ ] Place between Controls and GridSizeForm in the sidebar
-  - [ ] No `useCallback` wrapper needed for `setGenPerSec` — React guarantees `useState` setters are referentially stable
+- [x] **Task 3: Wire SpeedSlider into page** (AC: 2)
+  - [x] Import and render `<SpeedSlider value={genPerSec} onChange={setGenPerSec} />` in the sidebar controls area
+  - [x] Place between Controls and GridSizeForm in the sidebar
+  - [x] No `useCallback` wrapper needed for `setGenPerSec` — React guarantees `useState` setters are referentially stable
 
-- [ ] **Task 4: Tests** (AC: 1, 2, 3, 4)
-  - [ ] **SpeedSlider unit tests** (`SpeedSlider.spec.tsx`):
-    - [ ] Renders a range input with correct min/max/step
-    - [ ] Displays current value label matching format "Speed: {value} gen/s"
-    - [ ] Calls onChange with a **number** (not string) when slider value changes
-    - [ ] Has correct aria attributes
-  - [ ] **Hook unit test — loop stability invariant** (`use-simulation-loop.spec.ts`) (AC: 3):
-    - [ ] Use `renderHook` from `@testing-library/react` to render `useSimulationLoop`
-    - [ ] Start running, spy on `cancelAnimationFrame`, then `rerender` with a different `genPerSec`
-    - [ ] Assert `cancelAnimationFrame` was NOT called — proves useEffect did not re-run
-    - [ ] Also assert `cancelAnimationFrame` IS called when `running` changes to `false` (control case)
-  - [ ] **Page integration tests** (`apps/web/specs/index.spec.tsx`):
-    - [ ] Slider renders with default value 10
-    - [ ] Changing slider while running does NOT pause simulation (Pause button stays visible)
-    - [ ] Changing slider does NOT reset gen-count
-    - [ ] Slider value is preserved after Clear (genPerSec is independent of the reducer)
-    - [ ] Slider value is preserved after Randomize
-  - [ ] **Keyboard test** (`SpeedSlider.spec.tsx`):
-    - [ ] Arrow Right increments value by 1 (native `<input type="range">` behavior)
+- [x] **Task 4: Tests** (AC: 1, 2, 3, 4)
+  - [x] **SpeedSlider unit tests** (`SpeedSlider.spec.tsx`):
+    - [x] Renders a range input with correct min/max/step
+    - [x] Displays current value label matching format "Speed: {value} gen/s"
+    - [x] Calls onChange with a **number** (not string) when slider value changes
+    - [x] Has correct aria attributes
+  - [x] **Hook unit test — loop stability invariant** (`use-simulation-loop.spec.ts`) (AC: 3):
+    - [x] Use `renderHook` from `@testing-library/react` to render `useSimulationLoop`
+    - [x] Start running, spy on `cancelAnimationFrame`, then `rerender` with a different `genPerSec`
+    - [x] Assert `cancelAnimationFrame` was NOT called — proves useEffect did not re-run
+    - [x] Also assert `cancelAnimationFrame` IS called when `running` changes to `false` (control case)
+  - [x] **Page integration tests** (`apps/web/specs/index.spec.tsx`):
+    - [x] Slider renders with default value 10
+    - [x] Changing slider while running does NOT pause simulation (Pause button stays visible)
+    - [x] Changing slider does NOT reset gen-count
+    - [x] Slider value is preserved after Clear (genPerSec is independent of the reducer)
+    - [x] Slider value is preserved after Randomize
+  - [x] **Keyboard test** (`SpeedSlider.spec.tsx`):
+    - [x] Arrow Right increments value by 1 (native `<input type="range">` behavior)
 
 ## Dev Notes
 
@@ -256,8 +256,25 @@ Recent commit pattern: story spec file + sprint-status as first commit, then foc
 
 ### Agent Model Used
 
+Claude Opus 4.7 (1M context)
+
 ### Debug Log References
+
+None — clean implementation with no failures.
 
 ### Completion Notes List
 
+- Task 1: Added `useState(DEFAULT_GEN_PER_SEC)` to SimulationPage, replaced hardcoded constant in `useSimulationLoop` call with dynamic state. Hook unchanged — already reads via `genPerSecRef.current`.
+- Task 2: Created SpeedSlider component with native `<input type="range">`, ARIA attributes, `Number()` conversion on change, Tailwind focus ring styling, and visible "Speed: {value} gen/s" label.
+- Task 3: Wired SpeedSlider between Controls and GridSizeForm in sidebar. Passed `setGenPerSec` directly (referentially stable).
+- Task 4: Added 6 SpeedSlider unit tests, 1 hook loop-stability control case test, 5 page integration tests. All 69 tests pass (12 new, 57 existing).
+
 ### File List
+
+- `apps/web/src/app/page.tsx` — modified (added genPerSec state, SpeedSlider import and render)
+- `apps/web/src/app/components/SpeedSlider.tsx` — new (speed slider component)
+- `apps/web/src/app/components/SpeedSlider.spec.tsx` — new (6 unit tests)
+- `apps/web/src/app/hooks/use-simulation-loop.spec.ts` — modified (added control case test)
+- `apps/web/specs/index.spec.tsx` — modified (added 5 integration tests)
+- `docs/implementation-artifacts/sprint-status.yaml` — modified (status update)
+- `docs/implementation-artifacts/3-5-speed-slider-with-raf-accumulator-mid-run-change-without-restart.md` — modified (task checkboxes, dev record)
