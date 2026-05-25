@@ -100,4 +100,37 @@ describe('useSimulationLoop', () => {
       (globalThis.requestAnimationFrame as jest.Mock).mock.calls.length
     ).toBe(rafCallCountBefore);
   });
+
+  it('uses the updated genPerSec rate after mid-run change (ref-fresh read)', () => {
+    const step = jest.fn();
+    const { rerender } = renderHook(
+      ({ genPerSec }) =>
+        useSimulationLoop({ running: true, genPerSec, step }),
+      { initialProps: { genPerSec: 10 } }
+    );
+
+    // At genPerSec=10, tickInterval=100ms. 25ms is not enough for a tick.
+    flushRAF(25);
+    expect(step).not.toHaveBeenCalled();
+
+    // Change to genPerSec=50 (tickInterval=20ms).
+    rerender({ genPerSec: 50 });
+
+    // 25ms more elapses (total accumulated=50ms).
+    // At the OLD rate (100ms/tick), 50ms would not trigger step.
+    // At the NEW rate (20ms/tick), 50ms >= 20ms triggers step.
+    flushRAF(50);
+    expect(step).toHaveBeenCalled();
+  });
+
+  it('DOES tear down rAF loop when running changes to false (control case)', () => {
+    const step = jest.fn();
+    const { rerender } = renderHook(
+      (props) => useSimulationLoop(props),
+      { initialProps: { running: true, genPerSec: 10, step } }
+    );
+
+    rerender({ running: false, genPerSec: 10, step });
+    expect(globalThis.cancelAnimationFrame).toHaveBeenCalled();
+  });
 });

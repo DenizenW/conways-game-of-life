@@ -5,6 +5,7 @@ import { clearGrid, createGrid, randomizeGrid, step, toggleCell, type Grid } fro
 import Canvas from './components/Canvas';
 import Controls from './components/Controls';
 import GridSizeForm from './components/GridSizeForm';
+import SpeedSlider from './components/SpeedSlider';
 import { useSimulationLoop } from './hooks/use-simulation-loop';
 
 const DEFAULT_WIDTH = 30;
@@ -99,6 +100,7 @@ function initState(): State {
 
 export default function SimulationPage() {
   const [state, dispatch] = useReducer(reducer, undefined, initState);
+  const [genPerSec, setGenPerSec] = useState(DEFAULT_GEN_PER_SEC);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -140,7 +142,7 @@ export default function SimulationPage() {
 
   useSimulationLoop({
     running: state.running,
-    genPerSec: DEFAULT_GEN_PER_SEC,
+    genPerSec,
     step: handleTick,
   });
 
@@ -204,6 +206,8 @@ export default function SimulationPage() {
             onClear={handleClear}
             onRandomize={handleRandomize}
           />
+
+          <SpeedSlider value={genPerSec} onChange={setGenPerSec} />
 
           <GridSizeForm
             currentWidth={state.dimensions.width}

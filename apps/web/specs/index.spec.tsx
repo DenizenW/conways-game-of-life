@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Page from '../src/app/page';
 
@@ -119,5 +119,52 @@ describe('SimulationPage', () => {
     expect(screen.getByRole('button', { name: /pause/i })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /randomize/i }));
     expect(screen.getByRole('button', { name: /play/i })).toBeInTheDocument();
+  });
+
+  describe('SpeedSlider integration', () => {
+    it('renders slider with default value 10', () => {
+      render(<Page />);
+      const slider = screen.getByRole('slider', { name: /generations per second/i });
+      expect(slider).toHaveValue('10');
+    });
+
+    it('changing slider while running does NOT pause simulation', async () => {
+      const user = userEvent.setup();
+      render(<Page />);
+      await user.click(screen.getByRole('button', { name: /play/i }));
+      const slider = screen.getByRole('slider', { name: /generations per second/i });
+      fireEvent.change(slider, { target: { value: '30' } });
+      expect(screen.getByRole('button', { name: /pause/i })).toBeInTheDocument();
+    });
+
+    it('changing slider does NOT reset gen-count', async () => {
+      const user = userEvent.setup();
+      render(<Page />);
+      await user.click(screen.getByRole('button', { name: /step/i }));
+      expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 1');
+      const slider = screen.getByRole('slider', { name: /generations per second/i });
+      fireEvent.change(slider, { target: { value: '30' } });
+      expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 1');
+    });
+
+    it('slider value is preserved after Clear', async () => {
+      const user = userEvent.setup();
+      render(<Page />);
+      const slider = screen.getByRole('slider', { name: /generations per second/i });
+      fireEvent.change(slider, { target: { value: '20' } });
+      expect(slider).toHaveValue('20');
+      await user.click(screen.getByRole('button', { name: /clear/i }));
+      expect(slider).toHaveValue('20');
+    });
+
+    it('slider value is preserved after Randomize', async () => {
+      const user = userEvent.setup();
+      render(<Page />);
+      const slider = screen.getByRole('slider', { name: /generations per second/i });
+      fireEvent.change(slider, { target: { value: '30' } });
+      expect(slider).toHaveValue('30');
+      await user.click(screen.getByRole('button', { name: /randomize/i }));
+      expect(slider).toHaveValue('30');
+    });
   });
 });
