@@ -19,7 +19,7 @@ export default function Controls({
   onRandomize,
 }: ControlsProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       {running ? (
         <button
           className={btnBase}
@@ -60,7 +60,7 @@ export default function Controls({
         onClick={onRandomize}
         aria-label="Randomize grid"
       >
-        🎲 Random
+        🎲 Randomize
       </button>
     </div>
   );
