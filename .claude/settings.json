@@ -9,7 +9,9 @@
       "Bash(pnpm nx run *:typecheck*)",
       "Bash(pnpm nx test)",
       "Bash(pnpm nx test *)",
-      "Bash(pnpm nx run *:test*)"
+      "Bash(pnpm nx run *:test*)",
+      "Bash(pnpm nx run-many -t test*)",
+      "Bash(pnpm nx run-many -t lint*)"
     ]
   },
   "extraKnownMarketplaces": {
