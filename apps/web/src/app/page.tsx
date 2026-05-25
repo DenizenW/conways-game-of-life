@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
-import { createGrid, step, toggleCell, type Grid } from '@conways-game-of-life/sim';
+import { clearGrid, createGrid, randomizeGrid, step, toggleCell, type Grid } from '@conways-game-of-life/sim';
 import Canvas from './components/Canvas';
 import Controls from './components/Controls';
 import GridSizeForm from './components/GridSizeForm';
@@ -26,7 +26,9 @@ type Action =
   | { type: 'TOGGLE_CELL'; x: number; y: number }
   | { type: 'PLAY' }
   | { type: 'PAUSE' }
-  | { type: 'STEP' };
+  | { type: 'STEP' }
+  | { type: 'CLEAR' }
+  | { type: 'RANDOMIZE' };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -66,6 +68,20 @@ function reducer(state: State, action: Action): State {
         ...state,
         grid: step(state.grid),
         genCount: state.genCount + 1,
+      };
+    case 'CLEAR':
+      return {
+        ...state,
+        grid: clearGrid(state.grid),
+        genCount: 0,
+        running: false,
+      };
+    case 'RANDOMIZE':
+      return {
+        ...state,
+        grid: randomizeGrid(state.grid),
+        genCount: 0,
+        running: false,
       };
     default:
       return state;
@@ -140,6 +156,14 @@ export default function SimulationPage() {
     dispatch({ type: 'STEP' });
   }, []);
 
+  const handleClear = useCallback(() => {
+    dispatch({ type: 'CLEAR' });
+  }, []);
+
+  const handleRandomize = useCallback(() => {
+    dispatch({ type: 'RANDOMIZE' });
+  }, []);
+
   const handleCellToggle = useCallback(
     (x: number, y: number) => {
       if (state.running) return;
@@ -177,6 +201,8 @@ export default function SimulationPage() {
             onPlay={handlePlay}
             onPause={handlePause}
             onStep={handleStep}
+            onClear={handleClear}
+            onRandomize={handleRandomize}
           />
 
           <GridSizeForm

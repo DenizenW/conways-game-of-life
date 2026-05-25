@@ -71,4 +71,40 @@ describe('SimulationPage', () => {
     await user.click(screen.getByRole('button', { name: /play/i }));
     expect(screen.getByRole('button', { name: /step/i })).toBeDisabled();
   });
+
+  it('Clear button resets gen-count to 0', async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getByRole('button', { name: /step/i }));
+    expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 1');
+    await user.click(screen.getByRole('button', { name: /clear/i }));
+    expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 0');
+  });
+
+  it('Randomize button resets gen-count to 0', async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getByRole('button', { name: /step/i }));
+    expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 1');
+    await user.click(screen.getByRole('button', { name: /randomize/i }));
+    expect(screen.getByTestId('gen-count')).toHaveTextContent('Generation: 0');
+  });
+
+  it('Clear while running pauses the simulation', async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getByRole('button', { name: /play/i }));
+    expect(screen.getByRole('button', { name: /pause/i })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /clear/i }));
+    expect(screen.getByRole('button', { name: /play/i })).toBeInTheDocument();
+  });
+
+  it('Randomize while running pauses the simulation', async () => {
+    const user = userEvent.setup();
+    render(<Page />);
+    await user.click(screen.getByRole('button', { name: /play/i }));
+    expect(screen.getByRole('button', { name: /pause/i })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /randomize/i }));
+    expect(screen.getByRole('button', { name: /play/i })).toBeInTheDocument();
+  });
 });
